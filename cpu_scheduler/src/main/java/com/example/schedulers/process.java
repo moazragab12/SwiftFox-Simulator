@@ -11,6 +11,8 @@ private int remainingTime; // For SRTF
 private int priority=1; // For Priority
 private String name;  
 private static int Count = 0; // Static variable to make process ID unique
+private int startTime = -1; // For Gantt Chart
+private int completionTime; // For Gantt Chart
 
 process(String name,int arrivalTime, int burstTime, int priority) {
     this.id = ++Count; // Increment Count and assign it to id
@@ -72,6 +74,22 @@ public int getPriority() {
 
 public String getName() {
     return name;
+}
+
+public int getStartTime() {
+    return startTime;
+}
+
+public void setStartTime(int startTime) {
+    this.startTime = startTime; // Set the start time for Gantt Chart
+}
+
+public int getCompletionTime() {
+    return completionTime;
+}
+
+public void setCompletionTime(int completionTime) {
+    this.completionTime = completionTime; // Set the completion time for Gantt Chart
 }
 
 public static void resetCount() {
