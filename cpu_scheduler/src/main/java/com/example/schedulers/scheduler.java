@@ -1,30 +1,37 @@
 package com.example.schedulers;
 
+import java.util.ArrayList;
+ 
 public abstract class scheduler {
-    private process processList[];
-    private process GanttChartList[][];
-    private boolean status;
-    private boolean isPreemptive;
-    private int currentTime;
+    private ArrayList<process> processList;
+    private ArrayList<ArrayList<Integer>> GanttChartList = new ArrayList<>();
+    private boolean status; // Assuming the scheduler is busy when true and idle when false
+    private boolean isPreemptive; // Assuming the preemptive is true and non-preemptive is false
+    private int timer;
     private int processCount;
     private process currentProcessInExecution;
 
-    public scheduler(process processList[], boolean isPreemptive) {
+    public scheduler(ArrayList processList, boolean isPreemptive) {
         this.processList = processList;
-        this.GanttChartList = new process[2][];
-        this.status = true;
+        this.status = true; 
         this.isPreemptive = isPreemptive;
-        this.currentTime = 0;
-        this.processCount = processList.length;
+        this.timer = 0;
+        this.processCount = processList.size();
         this.currentProcessInExecution = null;
     }
-    public process[] getProcessList() {
+    public ArrayList<process> getProcessList() {
         return processList;
     }
-    public void setProcessList(process[] processList) {
+    public void setProcessList(ArrayList<process> processList) {
         this.processList = processList;
     }
-    public boolean status() {
+    public ArrayList<ArrayList<Integer>> getGanttChartList() {
+        return GanttChartList;
+    }
+    public void setGanttChartList(ArrayList<ArrayList<Integer>> ganttChartList) {
+        GanttChartList = ganttChartList;
+    }
+    public boolean getStatus() {
         return status;
     }
     public void setStatus(boolean status) {
@@ -36,11 +43,11 @@ public abstract class scheduler {
     public void setPreemptive(boolean preemptive) {
         isPreemptive = preemptive;
     }
-    public int getCurrentTime() {
-        return currentTime;
+    public int getTimer() {
+        return timer;
     }
-    public void setCurrentTime(int currentTime) {
-        this.currentTime = currentTime;
+    public void setTimer(int currentTime) {
+        this.timer = currentTime;
     }
     public int getProcessCount() {
         return processCount;
@@ -54,39 +61,35 @@ public abstract class scheduler {
     public void setCurrentProcessInExecution(process currentProcessInExecution) {
         this.currentProcessInExecution = currentProcessInExecution;
     }
-    public void incrementCurrentTime() {
-        this.currentTime++;
-    }
-    public void addProcessToProcessList(process process) {
-        process[] newProcessList = new process[processList.length + 1];
-        System.arraycopy(processList, 0, newProcessList, 0, processList.length);
-        newProcessList[processList.length] = process;
-        this.processList = newProcessList;
-    }
-    public void addProcessToGanttChart(process process) {
-        if (GanttChartList[0] == null) {
-            GanttChartList[0] = new process[1];
-            GanttChartList[0][0] = process;
-        } else {
-            process[] newGanttChart = new process[GanttChartList[0].length + 1];
-            System.arraycopy(GanttChartList[0], 0, newGanttChart, 0, GanttChartList[0].length);
-            newGanttChart[GanttChartList[0].length] = process;
-            GanttChartList[0] = newGanttChart;
+    public void incrementCurrentTime(int timeUnit) {
+        this.timer += timeUnit;
+        currentProcessInExecution.setRemainingTime(currentProcessInExecution.getRemainingTime() - timeUnit);
+        /*
+        if (currentProcessInExecution.getRemainingTime() == 0) {
+            currentProcessInExecution.setTurnaroundTime(timer - currentProcessInExecution.getArrivalTime());
+            currentProcessInExecution.setWaitingTime(currentProcessInExecution.getTurnaroundTime() - currentProcessInExecution.getBurstTime());
+            isFinished();
         }
+        */
     }
-
-    //implemented in Here
-    public abstract void calculateAverageWaitingTime(); 
-    public abstract void calculateAverageTurnAroundTime();
+  public void addToGanttChart(int processId, int timeUnit) {
+        //update timeUnit when id change only
+        ArrayList<Integer> ganttEntry = new ArrayList<>();
+        ganttEntry.add(processId);
+        ganttEntry.add(timeUnit);
+        GanttChartList.add(ganttEntry);
+    }
     
-
+    //implemented in Here
+    public void calculateAverageWaitingTime(){}
+    public void calculateAverageTurnAroundTime(){}
+    public void calculateWaitingTime(process currentProcessInExecution){}
+    public void calculateTurnAroundTime(process currentProcessInExecution){}
+    public void isFinished(){}
 
     // Abstract method to be implemented by subclasses
     public abstract void schedule(); 
     public abstract void sortProcessList();
-    public abstract void calculateWaitingTime(process currentProcessInExecution); 
-    public abstract void calculateTurnAroundTime(process currentProcessInExecution);
-    public abstract void currentProcessInExecutionUpdate(process currentProcessInExecution);
-    public abstract void isFinished();
+    //public abstract void currentProcessInExecutionUpdate(process currentProcessInExecution);
 
 }

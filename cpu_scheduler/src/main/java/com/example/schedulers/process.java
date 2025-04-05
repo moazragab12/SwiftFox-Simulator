@@ -11,6 +11,7 @@ private int remainingTime; // For SRTF
 private int priority=1; // For Priority
 private String name;  
 private static int Count = 0; // Static variable to make process ID unique
+
 process(String name,int arrivalTime, int burstTime, int priority) {
     this.id = ++Count; // Increment Count and assign it to id
     this.arrivalTime = arrivalTime;

@@ -1,7 +1,10 @@
 package com.example.schedulers;
 
+import java.util.ArrayList;
+
 public class SJF extends scheduler {
-    public SJF(process[] processList, boolean isPreemptive) {
+
+    public SJF(ArrayList processList, boolean isPreemptive) {
         super(processList, isPreemptive);
         //TODO Auto-generated constructor stub
     }
@@ -29,12 +32,6 @@ public class SJF extends scheduler {
     public void calculateTurnAroundTime(process currentProcessInExecution) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'calculateTurnAroundTime'");
-    }
-
-    @Override
-    public void currentProcessInExecutionUpdate(process currentProcessInExecution) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'currentProcessInExecutionUpdate'");
     }
 
     @Override
