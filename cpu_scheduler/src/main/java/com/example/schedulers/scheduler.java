@@ -79,7 +79,7 @@ public abstract class scheduler {
             calculateTurnAroundTime(currentProcessInExecution);
             calculateWaitingTime(currentProcessInExecution);
             // Add the current process to the Gantt chart
-            addToGanttChart(currentProcessInExecution, timer);
+           // addToGanttChart(currentProcessInExecution, timer);
             if(isFinished()){
               //  System.out.println("All processes are finished.");
                // System.out.println("Average Waiting Time: " + calculateAverageWaitingTime());
