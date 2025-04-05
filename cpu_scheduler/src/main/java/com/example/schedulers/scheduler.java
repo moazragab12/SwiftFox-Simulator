@@ -82,9 +82,9 @@ public abstract class scheduler {
             // Add the current process to the Gantt chart
            // addToGanttChart(currentProcessInExecution, timer);
             if(isFinished()){
-              //  System.out.println("All processes are finished.");
-               // System.out.println("Average Waiting Time: " + calculateAverageWaitingTime());
-              //  System.out.println("Average Turnaround Time: " + calculateAverageTurnAroundTime());
+                //  System.out.println("All processes are finished.");
+                // System.out.println("Average Waiting Time: " + calculateAverageWaitingTime());
+                //  System.out.println("Average Turnaround Time: " + calculateAverageTurnAroundTime());
                 status = false; // Set status to false when all processes are finished
             } else {
                 // update the current process in execution to another process if available
@@ -151,11 +151,5 @@ public abstract class scheduler {
       4) when all processes are finished call the calculateAverageWaitingTime and calculateAverageTurnAroundTime methods to get the average waiting and turnaround times.
       5) u can also call the isFinished method to check if all processes are finished or not.
       6) u can also call the addToGanttChart method to add the current process to the Gantt chart with the time unit.
-        
-      
-
      */
-    public abstract void fitchProcess();
-    //public abstract void currentProcessInExecutionUpdate(process currentProcessInExecution);
-
 }
