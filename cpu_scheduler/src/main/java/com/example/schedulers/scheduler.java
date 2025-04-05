@@ -5,17 +5,17 @@ import java.util.ArrayList;
 public abstract class scheduler {
     private ArrayList<process> processList;
     private ArrayList<GantChartUnit> GanttChartList = new ArrayList<>();
-    private boolean status=false; // Assuming the scheduler is busy when true and idle when false
+    private static boolean  status=false; // Assuming the scheduler is busy when true and idle when false
     private boolean isPreemptive; // Assuming the preemptive is true and non-preemptive is false
-    private int timer;
+    private int time;
     private int processCount;
     private process currentProcessInExecution;
 
     public scheduler(ArrayList processList, boolean isPreemptive) {
         this.processList = processList;
-        this.status = true; 
+        this.status = false; 
         this.isPreemptive = isPreemptive;
-        this.timer = 0;
+        this.time = 0;
         this.processCount = processList.size();
         this.currentProcessInExecution = null;
     }
@@ -31,7 +31,7 @@ public abstract class scheduler {
     public void setGanttChartList(ArrayList<GantChartUnit> ganttChartList) {
         GanttChartList = ganttChartList;
     }
-    public boolean getStatus() {
+    public static boolean getStatus() {
         return status;
     }
     public void setStatus(boolean status) {
@@ -43,11 +43,11 @@ public abstract class scheduler {
     public void setPreemptive(boolean preemptive) {
         isPreemptive = preemptive;
     }
-    public int getTimer() {
-        return timer;
+    public int getTime() {
+        return time;
     }
-    public void setTimer(int currentTime) {
-        this.timer = currentTime;
+    public void setTime(int currentTime) {
+        this.time = currentTime;
     }
     public int getProcessCount() {
         return processCount;
@@ -62,7 +62,7 @@ public abstract class scheduler {
         this.currentProcessInExecution = currentProcessInExecution;
     }
     public void incrementCurrentTime(int timeUnit) {
-        this.timer += timeUnit;
+        this.time += timeUnit;
         if (currentProcessInExecution != null&& currentProcessInExecution.getRemainingTime()-timeUnit >= 0) {
             status = true; // Set status to busy when incrementing time
             // Decrease the remaining time of the current process in execution
@@ -118,11 +118,11 @@ public abstract class scheduler {
     }
     public void calculateWaitingTime(process currentProcessInExecution){
         // Calculate waiting time for the current process in execution
-        currentProcessInExecution.setWaitingTime(timer - currentProcessInExecution.getArrivalTime() - currentProcessInExecution.getBurstTime());
+        currentProcessInExecution.setWaitingTime(time - currentProcessInExecution.getArrivalTime() - currentProcessInExecution.getBurstTime());
     }
     public void calculateTurnAroundTime(process currentProcessInExecution){
             // Calculate turnaround time for the current process in execution
-            currentProcessInExecution.setTurnaroundTime(timer - currentProcessInExecution.getArrivalTime());
+            currentProcessInExecution.setTurnaroundTime(time - currentProcessInExecution.getArrivalTime());
     }
     public boolean  isFinished(){
         for (process p : processList) {
