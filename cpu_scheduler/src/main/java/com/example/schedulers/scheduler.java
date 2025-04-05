@@ -34,8 +34,8 @@ public abstract class scheduler {
     public static boolean getStatus() {
         return status;
     }
-    public void setStatus(boolean status) {
-        this.status = status;
+    public static void setStatus(boolean status) {
+        scheduler.status = status;
     }
     public boolean isPreemptive() {
         return isPreemptive;
@@ -78,6 +78,7 @@ public abstract class scheduler {
         if (currentProcessInExecution != null && currentProcessInExecution.getRemainingTime() == 0) {
             calculateTurnAroundTime(currentProcessInExecution);
             calculateWaitingTime(currentProcessInExecution);
+            status = false; // Set status to idle when the process is finished
             // Add the current process to the Gantt chart
            // addToGanttChart(currentProcessInExecution, timer);
             if(isFinished()){

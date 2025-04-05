@@ -13,18 +13,18 @@ public class Pri extends scheduler {
         fitchProcess();
         if(!isPreemptive()){
             if(getCurrentProcessInExecution() != null){  
-                System.out.println(scheduler.getStatus());
+             //   System.out.println(scheduler.getStatus());
             incrementCurrentTime(getCurrentProcessInExecution().getBurstTime());
-            System.out.println(scheduler.getStatus());
+            //System.out.println(scheduler.getStatus());
             addToGanttChart(getCurrentProcessInExecution(), getCurrentProcessInExecution().getBurstTime());
             setCurrentProcessInExecution(null);
             }
         }
         else{
             if(getCurrentProcessInExecution() != null){
-                System.out.println(scheduler.getStatus());
+             //   System.out.println(scheduler.getStatus());
                 incrementCurrentTime(1);
-                System.out.println(scheduler.getStatus());
+             //   System.out.println(scheduler.getStatus());
 
                 addToGanttChart(getCurrentProcessInExecution(), 1);
                 if(getCurrentProcessInExecution().getRemainingTime() == 0){
@@ -78,7 +78,7 @@ public class Pri extends scheduler {
         processList.add(new process("P6", 5, 4, 3));
         processList.add(new process("P7", 6, 3, 2));
         processList.add(new process("P8", 7, 2, 1)); */
-        Pri scheduler = new Pri(processList, false);
+        Pri scheduler = new Pri(processList, true);
       //  System.out.println(scheduler.getStatus());
         ArrayList<GantChartUnit> ganttChart = scheduler.schedule();
       // System.out.println(scheduler.getStatus());
