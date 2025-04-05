@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class scheduler {
     private ArrayList<process> processList;
     private ArrayList<GantChartUnit> GanttChartList = new ArrayList<>();
-    private boolean status=false; // Assuming the scheduler is busy when true and idle when false
+    private static boolean  status=false; // Assuming the scheduler is busy when true and idle when false
     private boolean isPreemptive; // Assuming the preemptive is true and non-preemptive is false
     private int time;
     private int processCount;
@@ -13,7 +13,7 @@ public abstract class scheduler {
 
     public scheduler(ArrayList processList, boolean isPreemptive) {
         this.processList = processList;
-        this.status = true; 
+        this.status = false; 
         this.isPreemptive = isPreemptive;
         this.time = 0;
         this.processCount = processList.size();
@@ -31,7 +31,7 @@ public abstract class scheduler {
     public void setGanttChartList(ArrayList<GantChartUnit> ganttChartList) {
         GanttChartList = ganttChartList;
     }
-    public boolean getStatus() {
+    public static boolean getStatus() {
         return status;
     }
     public void setStatus(boolean status) {
@@ -79,7 +79,7 @@ public abstract class scheduler {
             calculateTurnAroundTime(currentProcessInExecution);
             calculateWaitingTime(currentProcessInExecution);
             // Add the current process to the Gantt chart
-            addToGanttChart(currentProcessInExecution, time);
+           // addToGanttChart(currentProcessInExecution, timer);
             if(isFinished()){
                 //  System.out.println("All processes are finished.");
                 // System.out.println("Average Waiting Time: " + calculateAverageWaitingTime());
