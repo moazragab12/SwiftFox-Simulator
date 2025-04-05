@@ -17,7 +17,7 @@ public class SJF extends scheduler {
     }
 
     @Override
-    public void sortProcessList() {
+    public void fitshProcess() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'sortProcessList'");
     }
