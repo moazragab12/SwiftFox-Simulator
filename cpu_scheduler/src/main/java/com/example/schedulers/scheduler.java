@@ -13,7 +13,6 @@ public abstract class scheduler {
 
     public scheduler(ArrayList processList, boolean isPreemptive) {
         this.processList = processList;
-        this.status = false; 
         this.isPreemptive = isPreemptive;
         this.time = 0;
         this.processCount = processList.size();
