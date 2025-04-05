@@ -85,7 +85,7 @@ public class Pri extends scheduler {
         processList.add(new process("P5", 5, 4, 3));
         processList.add(new process("P6", 6, 3, 2));
         processList.add(new process("P7", 50, 2, 1)); 
-        Pri scheduler = new Pri(processList, false);
+        Pri scheduler = new Pri(processList, true);
       //  System.out.println(scheduler.getStatus());
         ArrayList<GantChartUnit> ganttChart = scheduler.schedule();
       // System.out.println(scheduler.getStatus());
@@ -95,6 +95,7 @@ public class Pri extends scheduler {
         }
         System.out.println(scheduler.calculateAverageTurnAroundTime());
         System.out.println(scheduler.calculateAverageWaitingTime());
+        System.out.println(scheduler.isFinished());
     }
 
 }
