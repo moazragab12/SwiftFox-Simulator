@@ -2,14 +2,14 @@ package com.example.schedulers;
 
 
 public class process {
-private int id;
-private int arrivalTime;  
-private int burstTime;
+private final int id;
+private final  int arrivalTime;  
+private final int burstTime;
 private int waitingTime=0;    
 private int turnaroundTime=0;
 private int remainingTime; // For SRTF
 private int priority=1; // For Priority
-private String name;  
+private final String name;  
 private static int Count = 0; // Static variable to make process ID unique
 private int startTime = -1; // For Gantt Chart
 private int completionTime; // For Gantt Chart
@@ -22,6 +22,7 @@ process(String name,int arrivalTime, int burstTime, int priority) {
     this.priority = priority;
     this.name = name;
 }
+
 process(String name,int arrivalTime, int burstTime){
     this.id = ++Count; // Increment Count and assign it to id
     this.arrivalTime = arrivalTime;

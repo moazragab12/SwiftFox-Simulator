@@ -11,9 +11,12 @@ public abstract class scheduler {
     private int processCount;
     private process currentProcessInExecution;
 
+    /**
+     * @param processList
+     * @param isPreemptive
+     */
     public scheduler(ArrayList processList, boolean isPreemptive) {
         this.processList = processList;
-        this.status = false; 
         this.isPreemptive = isPreemptive;
         this.time = 0;
         this.processCount = processList.size();
