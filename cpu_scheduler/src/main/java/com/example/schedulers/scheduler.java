@@ -72,7 +72,7 @@ public abstract class scheduler {
             currentProcessInExecution.setRemainingTime(currentProcessInExecution.getRemainingTime() - timeUnit);
         }
         else   {
-            System.out.println("no Process is  in execution or remaining time is negative.");
+           // System.out.println("no Process is  in execution or remaining time is negative.");
         }
         //  if u want change current process in execution to another process without the old process finishing its execution
         // if available u must before cahnge add it to gantt chart then change it to another process (it was always one time unit )

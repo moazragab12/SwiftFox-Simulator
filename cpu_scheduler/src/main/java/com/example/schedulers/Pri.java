@@ -9,19 +9,26 @@ public class Pri extends scheduler {
 
     @Override
     public ArrayList<GantChartUnit> schedule() {
+       process p = new process("idle", 0, 0);
         while(!isFinished()){
         fitchProcess();
+        if(getCurrentProcessInExecution() == null){
+            scheduler.setStatus(false);
+            incrementCurrentTime(1);
+            addToGanttChart(p, 1);
+        }
+        else{
         if(!isPreemptive()){
-            if(getCurrentProcessInExecution() != null){  
+             
              //   System.out.println(scheduler.getStatus());
             incrementCurrentTime(getCurrentProcessInExecution().getBurstTime());
             //System.out.println(scheduler.getStatus());
             addToGanttChart(getCurrentProcessInExecution(), getCurrentProcessInExecution().getBurstTime());
             setCurrentProcessInExecution(null);
-            }
+            
         }
         else{
-            if(getCurrentProcessInExecution() != null){
+           
              //   System.out.println(scheduler.getStatus());
                 incrementCurrentTime(1);
              //   System.out.println(scheduler.getStatus());
@@ -30,8 +37,8 @@ public class Pri extends scheduler {
                 if(getCurrentProcessInExecution().getRemainingTime() == 0){
                     setCurrentProcessInExecution(null);
                 }
-            }
-        }
+            
+        }}
         }
         return handleGantchart(getGanttChartList());
     }
@@ -70,15 +77,15 @@ public class Pri extends scheduler {
     public static void main(String[] args) {
         System.out.println("Hello World!");
         ArrayList<process> processList = new ArrayList<>();
-        processList.add(new process("P1", 0, 10, 2));
-        processList.add(new process("P2", 1, 5, 1));
-        processList.add(new process("P3", 2, 8, 3));
-       /*  processList.add(new process("P4", 3, 6, 2));
-        processList.add(new process("P5", 4, 7, 1));
-        processList.add(new process("P6", 5, 4, 3));
-        processList.add(new process("P7", 6, 3, 2));
-        processList.add(new process("P8", 7, 2, 1)); */
-        Pri scheduler = new Pri(processList, true);
+        processList.add(new process("P0", 0, 10, 2));
+        processList.add(new process("P1", 1, 5, 1));
+        processList.add(new process("P2", 2, 8, 3));
+        processList.add(new process("P3", 3, 6, 2));
+        processList.add(new process("P4", 4, 7, 1));
+        processList.add(new process("P5", 5, 4, 3));
+        processList.add(new process("P6", 6, 3, 2));
+        processList.add(new process("P7", 50, 2, 1)); 
+        Pri scheduler = new Pri(processList, false);
       //  System.out.println(scheduler.getStatus());
         ArrayList<GantChartUnit> ganttChart = scheduler.schedule();
       // System.out.println(scheduler.getStatus());
