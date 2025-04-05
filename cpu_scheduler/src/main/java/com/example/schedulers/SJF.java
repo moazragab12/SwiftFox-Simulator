@@ -84,12 +84,6 @@ public class SJF extends scheduler {
         System.out.println();
     }
 
-    @Override
-    public void fitchProcess() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fitchProcess'");
-    }
-
     public static void main(String[] args) {
         System.out.println("Hello World!");
         ArrayList<process> processList = new ArrayList<>();

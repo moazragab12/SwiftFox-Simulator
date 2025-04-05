@@ -154,8 +154,4 @@ public abstract class scheduler {
       
 
      */
-    public abstract void fitchProcess();
-    //public abstract void currentProcessInExecutionUpdate(process currentProcessInExecution);
-
-
 }
