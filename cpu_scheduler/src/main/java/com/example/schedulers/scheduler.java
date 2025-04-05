@@ -146,6 +146,10 @@ public abstract class scheduler {
         and call the incrementCurrentTime method to update the time and take care  if u want to change the current process in execution to another process without the old process finishing its execution
         update the gantt chart with old process and time unit (it was always one time unit )and then change it to another process (it was always one time unit )
         (u don`t need priveous step in FCFS & RR) 
+      3) when the current process in execution is finished call the calculateTurnAroundTime and calculateWaitingTime methods to update the waiting and turnaround times for the current process.
+      4) when all processes are finished call the calculateAverageWaitingTime and calculateAverageTurnAroundTime methods to get the average waiting and turnaround times.
+      5) u can also call the isFinished method to check if all processes are finished or not.
+      6) u can also call the addToGanttChart method to add the current process to the Gantt chart with the time unit.
         
       
 
