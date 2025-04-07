@@ -19,7 +19,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 1280, 720);
+        scene = new Scene(loadFXML("welcoming"), 1280, 720);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles/style.css")).toExternalForm());
         stage.setScene(scene);
         stage.show();
         stage.setTitle("CPU Scheduling Visualizer");
