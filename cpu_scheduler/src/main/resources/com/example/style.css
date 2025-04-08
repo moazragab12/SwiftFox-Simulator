@@ -1,0 +1,142 @@
+.button {
+ -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
+     -fx-text-fill: white;
+     -fx-font-size: 15px;
+     -fx-font-weight: 800;
+     -fx-padding: 10px 20px;
+     -fx-background-radius: 8px;
+     -fx-border-radius: 8px;
+     -fx-cursor: hand;
+     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #43e97b, #38f9d7);
+}
+
+.button:pressed {
+    -fx-background-color: #3cb371;
+}
+
+.pane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 4);
+}
+
+/*  TABLEVIEW */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #e2e8f0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-size: 40px;
+    -fx-background-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-view .label {
+    -fx-text-fill: #25265e;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/*  TABLE CELLS */
+.table-cell {
+    -fx-padding: 6 10;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
+    -fx-text-fill: #25265e;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #edf2f7;
+}
+
+/*  TEXT FIELDS INSIDE TABLE  */
+.text-field {
+    -fx-background-color: #f1f3f5;
+    -fx-border-color: #dee2e6;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 5 8;
+    -fx-font-size: 13px;
+}
+
+.summaryHBox{
+-fx-spacing: 5;
+-fx-padding: 5;
+}
+
+.VBoxFields{
+-fx-padding: 5;
+-fx-border-color: #e2e8f0;
+-fx-background-color:transparent;
+-fx-border-radius:5;
+
+}
+
+/*  CHECKBOX  */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2e2e2e;
+    -fx-font-weight: bold;
+    -fx-padding: 4 8;
+}
+
+/* Checkbox box itself */
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #cbd5e0;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-pref-width: 16;
+    -fx-pref-height: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);
+}
+
+/* When checkbox is selected */
+.check-box:selected .box {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #06b6d4);
+    -fx-border-color: transparent;
+}
+
+/* Check mark inside */
+.check-box:selected .mark {
+    -fx-background-color: white;
+
+}}
+
+/* On hover */
+.check-box:hover .box {
+    -fx-border-color: #06b6d4;
+}
+
+.choiceBox{
+    -fx-background-color: transparent;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius:5;
+}
