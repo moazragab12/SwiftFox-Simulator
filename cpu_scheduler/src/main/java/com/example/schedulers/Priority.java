@@ -4,46 +4,38 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class SJF extends Scheduler
+public class Priority extends Scheduler
 {
     boolean preemptive;
 
-    public SJF(boolean preemptive)
+    public Priority(boolean preemptive)
     {
         this.preemptive = preemptive;
-        this.readyQueue = buildReadyQueue();
-    }
-
-    private PriorityQueue<Process> buildReadyQueue()
-    {
-        Comparator<Process> comparator = preemptive
-                ? Comparator.comparingInt(Process::getRemainingTime)
-                : Comparator.comparingInt(Process::getBurstTime);
-
-        comparator = comparator
+        this.readyQueue = new PriorityQueue<>(Comparator
+                .comparingInt(Process::getPriority).reversed()
                 .thenComparingInt(Process::getArrivalTime)
-                .thenComparingInt(Process::getPid);
-
-        return new PriorityQueue<>(comparator);
-
+                .thenComparingInt(Process::getPid));
     }
+
+
     @Override
     public void initialize(List<Process> processes)
     {
         processes.stream()
                 .sorted(Comparator
                         .comparingInt(Process::getArrivalTime)
-                        .thenComparingInt(Process::getBurstTime))
+                        .thenComparingInt(Process::getPriority))
                 .forEach(this::addProcess);
     }
 
     @Override
-    public Process decideNextProcess() {
+    public Process decideNextProcess()
+    {
         if (preemptive)
         {
             // If there's a running process and a different one with shorter remaining time arrives
-            Process shortestProcess = readyQueue.peek();
-            if (currentProcess != null && shortestProcess != null && currentProcess != shortestProcess )
+            Process highestPriorityProcess = readyQueue.peek();
+            if (currentProcess != null && highestPriorityProcess != null && currentProcess != highestPriorityProcess )
             {
                 currentProcess.preempt();
                 readyQueue.add(currentProcess);

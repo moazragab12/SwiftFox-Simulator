@@ -1,110 +1,57 @@
 package com.example.schedulers;
 
+public final class Process {
+    private static int counter = 0 ;
+    private final int pid;
+    private final String name;
+    private final int arrivalTime;
+    private final int burstTime;
+    private final int priority;
+    private int remainingTime;
+    public enum ProcessState {NEW, READY, RUNNING, TERMINATED}
+    private ProcessState state;
 
-public class process {
-private final int id;
-private final  int arrivalTime;  
-private final int burstTime;
-private int waitingTime=0;    
-private int turnaroundTime=0;
-private int remainingTime; // For SRTF
-private int priority=1; // For Priority
-private final String name;  
-private static int Count = 0; // Static variable to make process ID unique
-private int startTime = -1; // For Gantt Chart
-private int completionTime; // For Gantt Chart
+    public Process(String name, int arrivalTime, int burstTime, int priority) {
+        this.pid = ++counter;
+        this.name = name;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.priority = priority;
+        this.remainingTime = burstTime;
+        this.state = ProcessState.NEW;
+    }
 
-process(String name,int arrivalTime, int burstTime, int priority) {
-    this.id = ++Count; // Increment Count and assign it to id
-    this.arrivalTime = arrivalTime;
-    this.burstTime = burstTime;
-    this.remainingTime = burstTime; // Initialize remaining time to burst time
-    this.priority = priority;
-    this.name = name;
-}
-
-process(String name,int arrivalTime, int burstTime){
-    this.id = ++Count; // Increment Count and assign it to id
-    this.arrivalTime = arrivalTime;
-    this.burstTime = burstTime;
-    this.remainingTime = burstTime; // Initialize remaining time to burst time
-    this.priority = 1;
-    this.name = name;
-}
-
-public int getId() {
-    return id;
-}
-
-public int getArrivalTime() {
-    return arrivalTime;
-}
-
-public int getBurstTime() {
-    return burstTime;
-}
-
-public int getWaitingTime() {
-    return waitingTime;
-}
-
-public void setWaitingTime(int waitingTime) {
-    this.waitingTime = waitingTime;
-}
-
-public int getTurnaroundTime() {
-    return turnaroundTime;
-}
-
-public void setTurnaroundTime(int turnaroundTime) {
-    this.turnaroundTime = turnaroundTime;
-}
-
-public int getRemainingTime() {
-    return remainingTime;
-}
-
-public void setRemainingTime(int remainingTime) {
-    this.remainingTime = remainingTime;
-}
-
-public int getPriority() {
-    return priority;
-}
+    public Process(String name, int arrivalTime, int burstTime) {
+        this(name,arrivalTime,burstTime,0);
+    }
 
 
-public String getName() {
-    return name;
-}
+    public void execute(int timeUnits) {
+        remainingTime = Math.max(0, remainingTime - timeUnits);
+        if (remainingTime == 0)
+            state = ProcessState.TERMINATED;
 
-public int getStartTime() {
-    return startTime;
-}
+    }
 
-public void setStartTime(int startTime) {
-    this.startTime = startTime; // Set the start time for Gantt Chart
-}
+    public void preempt() {
+        if (state == ProcessState.RUNNING && remainingTime > 0) {
+            state = ProcessState.READY;
+        }
+    }
 
-public int getCompletionTime() {
-    return completionTime;
-}
+    public static void resetCounter() {
+        counter = 1;
+    }
 
-public void setCompletionTime(int completionTime) {
-    this.completionTime = completionTime; // Set the completion time for Gantt Chart
-}
-
-public static void resetCount() {
-    Count = 0; // Reset the static variable Count to 0
-}
-public void incWaitingTime(int time) {
-    this.waitingTime += time; // Increment waiting time by the given time
-}
-
-public void incTurnaroundTime(int time) {
-    this.turnaroundTime += time; // Increment turnaround time by the given time
-}
-public void decRemainingTime(int time) {
-    this.remainingTime -= time; // Decrement remaining time by the given time
-}
+    // Getters
+    public int getPid() { return pid; }
+    public String getName() { return name; }
+    public int getArrivalTime() { return arrivalTime; }
+    public int getBurstTime() { return burstTime; }
+    public int getPriority() { return priority; }
+    public int getRemainingTime() { return remainingTime; }
+    public ProcessState getState() { return state; }
+    public void setRunning() {state = ProcessState.RUNNING;}
+    public void setReady() {state = ProcessState.READY;}
 
 }
