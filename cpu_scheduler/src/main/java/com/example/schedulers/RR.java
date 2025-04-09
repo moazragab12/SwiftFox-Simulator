@@ -1,8 +1,6 @@
 package com.example.schedulers;
 
-import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.List;
 
 public class RR extends Scheduler
 {
@@ -15,13 +13,6 @@ public class RR extends Scheduler
         this.timeQuantum = timeQuantum;
     }
 
-    @Override
-    public void initialize(List<Process> processes)
-    {
-        processes.stream()
-                .sorted(Comparator.comparingInt(Process::getArrivalTime))
-                .forEach(this::addProcess);
-    }
 
     @Override
     public Process decideNextProcess()

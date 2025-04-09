@@ -1,6 +1,4 @@
 package com.example.schedulers;
-
-import java.util.List;
 import java.util.Queue;
 
 public abstract class Scheduler
@@ -15,7 +13,6 @@ public abstract class Scheduler
 
     }
 
-    public abstract void initialize(List<Process> processes);
 
     public abstract Process decideNextProcess();
 

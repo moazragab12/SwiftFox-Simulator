@@ -1,7 +1,6 @@
 package com.example.schedulers;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class Priority extends Scheduler
@@ -17,16 +16,6 @@ public class Priority extends Scheduler
                 .thenComparingInt(Process::getPid));
     }
 
-
-    @Override
-    public void initialize(List<Process> processes)
-    {
-        processes.stream()
-                .sorted(Comparator
-                        .comparingInt(Process::getArrivalTime)
-                        .thenComparingInt(Process::getPriority))
-                .forEach(this::addProcess);
-    }
 
     @Override
     public Process decideNextProcess()
