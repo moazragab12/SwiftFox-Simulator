@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import com.example.schedulers.*;
 import com.example.schedulers.Process;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,8 +24,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
 
 public class UI_controller implements Initializable {
+
 
     @FXML
     private Label ProcessName_label;
@@ -44,8 +47,10 @@ public class UI_controller implements Initializable {
     @FXML
     private HBox ghantt_HBox;
 
+    ObservableList<Process> currentTableData = FXCollections.observableArrayList();
+
     @FXML
-    public TableView<com.example.ProcessInfo> table;
+    public TableView<com.example.schedulers.Process> table;
 
     @FXML
     private Button start_btn1;
@@ -145,6 +150,7 @@ public class UI_controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        table.setItems(currentTableData);
         processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
@@ -191,7 +197,58 @@ public class UI_controller implements Initializable {
 
     @FXML
     public void addProcess(ActionEvent event) {
-        //ObservableList<Process> currentTableData = table.getItems();
+      
+      
+        // Check if the text fields are empty before adding a process
+        if (ProcessName_textField.getText().isEmpty() || ArrivalTime_textField.getText().isEmpty() || BurstTime_textField.getText().isEmpty()) {
+            System.out.println("Please fill in all fields.");
+            return;
+        }
+        if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
+                SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
+            if (priority_textField.getText().isEmpty()) {
+                System.out.println("Please fill in all fields.");
+                return;
+            }
+        } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
+            if (quantumTime_textField.getText().isEmpty()) {
+                System.out.println("Please fill in all fields.");
+                return;
+            }
+        }
+
+        // Check if the input values are valid integers
+        try {
+            Integer.parseInt(ArrivalTime_textField.getText());
+            Integer.parseInt(BurstTime_textField.getText());
+            if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
+                    SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
+                Integer.parseInt(priority_textField.getText());
+            } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
+                Integer.parseInt(quantumTime_textField.getText());
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Please enter valid integer values.");
+            return;
+        }
+        // Check if the input values are non-negative
+        if (Integer.parseInt(ArrivalTime_textField.getText()) < 0 || Integer.parseInt(BurstTime_textField.getText()) < 0) {
+            System.out.println("Please enter non-negative values.");
+            return;
+        }
+        if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
+                SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
+            if (Integer.parseInt(priority_textField.getText()) < 0) {
+                System.out.println("Please enter non-negative values.");
+                return;
+            }
+        } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
+            if (Integer.parseInt(quantumTime_textField.getText()) <= 0) {
+                System.out.println("Please enter positive values for quantum time.");
+                return;
+            }
+        }
+
 
         String processName = ProcessName_textField.getText();
         int arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());
@@ -199,55 +256,33 @@ public class UI_controller implements Initializable {
 
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
+
             int priority = Integer.parseInt(priority_textField.getText());
-            table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime, burstTime,burstTime, priority));
-            System.out.println("Adding process: " + processName); //testing
+            Process p = new Process(processName, arrivalTime, burstTime, priority);
+            currentTableData.add(p);
 
         } else {
-            table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime,burstTime,burstTime));
-            System.out.println("Adding process: " + processName); //testing
-
+            Process p = new Process(processName, arrivalTime, burstTime);
+            currentTableData.add(p);
         }
+
+        ProcessName_textField.clear();
+        ArrivalTime_textField.clear();
+        BurstTime_textField.clear();
+        priority_textField.clear();
+        quantumTime_textField.clear();
     }
 
 
     public void startSimulation(ActionEvent actionEvent) {
-        ObservableList<ProcessInfo> allProcesses = table.getItems();
-        List<Process> processList = new ArrayList<>();
-        switch (SchedulingMethod_choiceList.getValue()) {
-            case "FCFS":
-                for (ProcessInfo info : table.getItems()) {
-                    Process p = new Process(info.getName(), info.getArrivalTime(), info.getBurstTime());
-                    processList.add(p);
-                }
-                Scheduler scheduler = new FCFS();
-                GanttChart ganttChart = new GanttChart();
-                Simulator simulator = new Simulator(processList, scheduler, ganttChart);
-                simulator.runStatic();
-                System.out.println("FCFS here");
-                break;
-            case "SJF (Preemptive)":
+        
+        
+    }
 
-                break;
-            case "SJF (Non-Preemptive)":
-                break;
-            case "Priority (Preemptive)":
-                break;
-            case "Priority (Non-Preemptive)":
+    
 
-                break;
-
-            case "Round Robin":
-
-                break;
-        }
-        for (Process process : processList) {
-            System.out.println("Process: " + process.getName() +
-                    ", Arrival: " + process.getArrivalTime() +
-                    ", Burst: " + process.getBurstTime() +
-                    ", Priority: " + process.getPriority());
-            System.out.println(process.getRemainingTime());
-        }
+    @FXML
+    void goBack(MouseEvent event) {
 
     }
 

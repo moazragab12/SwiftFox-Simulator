@@ -5,4 +5,6 @@ module com.example {
 
     opens com.example to javafx.fxml;
     exports com.example;
+    exports com.example.schedulers;
+    opens com.example.schedulers to javafx.base;
 }
