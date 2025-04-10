@@ -19,13 +19,12 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("updated-UI"));
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        scene = new Scene(loadFXML("primary"),1352, 720);
         stage.setScene(scene);
-        stage.sizeToScene();
-        stage.setMaximized(true);
         stage.setTitle("SwiftFox");
         stage.getIcons().add(new Image(getClass().getResource("images/fox_icon.jpeg").toExternalForm()));
+        stage.centerOnScreen();
+        stage.setResizable(false);
         stage.show();
     }
 
