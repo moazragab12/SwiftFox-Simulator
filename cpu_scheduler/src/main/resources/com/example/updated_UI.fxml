@@ -136,7 +136,7 @@
                               <Font name="Century Gothic Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="Average_Turnaround_Time_textField" prefHeight="28.0" prefWidth="57.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
+                        <TextField fx:id="Average_Turnaround_Time_textField" editable="false" prefHeight="28.0" prefWidth="57.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -146,7 +146,7 @@
                               <Font name="Century Gothic Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="Average_Waiting_Time_textField" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
+                        <TextField fx:id="Average_Waiting_Time_textField" editable="false" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
                      </children>
                   </FlowPane>
                   <Button fx:id="goBack_btn" mnemonicParsing="false" onMouseClicked="#goBack" text="Go back" translateX="-20.0" translateY="30.0" />
