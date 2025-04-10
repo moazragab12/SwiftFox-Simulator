@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import com.example.schedulers.*;
 import com.example.schedulers.Process;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,7 +46,8 @@ public class UI_controller implements Initializable {
     private HBox ghantt_HBox;
 
     @FXML
-    public TableView<com.example.ProcessInfo> table;
+    private TableView<com.example.schedulers.Process> table;
+    //private TableView<com.example.ProcessInfo> table;
 
     @FXML
     private Button start_btn1;
@@ -104,19 +106,19 @@ public class UI_controller implements Initializable {
 
 
     @FXML
-    private TableColumn<com.example.ProcessInfo, String> processName_col;
+    private TableColumn<com.example.schedulers.Process, String> processName_col;
 
     @FXML
-    private TableColumn<com.example.ProcessInfo, Integer> remaining_col;
+    private TableColumn<com.example.schedulers.Process, Integer> remaining_col;
 
     @FXML
-    private TableColumn<com.example.ProcessInfo, Integer> arrival_col;
+    private TableColumn<com.example.schedulers.Process, Integer> arrival_col;
 
     @FXML
-    private TableColumn<com.example.ProcessInfo, Integer> burst_col;
+    private TableColumn<com.example.schedulers.Process, Integer> burst_col;
 
     @FXML
-    private TableColumn<com.example.ProcessInfo, Integer> priority_col;
+    private TableColumn<com.example.schedulers.Process, Integer> priority_col;
 
     @FXML
     private Label priority_label;
@@ -133,6 +135,9 @@ public class UI_controller implements Initializable {
     @FXML
     private Button goBack_btn;
 
+    private ObservableList<com.example.schedulers.Process> processList = FXCollections.observableArrayList();
+
+
     @FXML
     void goBack(ActionEvent event) {
         try {
@@ -145,11 +150,22 @@ public class UI_controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
-        remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
-        arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
-        burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
-        priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
+//        processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
+//        remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
+//        arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
+//        burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
+//        priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
+
+        processName_col.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        remaining_col.setCellValueFactory(cellData -> cellData.getValue().remainingTimeProperty().asObject());
+        arrival_col.setCellValueFactory(cellData -> cellData.getValue().arrivalTimeProperty().asObject());
+        burst_col.setCellValueFactory(cellData -> cellData.getValue().burstTimeProperty().asObject());
+        priority_col.setCellValueFactory(cellData -> cellData.getValue().priorityProperty().asObject());
+
+        remaining_col.setCellValueFactory(cellData -> cellData.getValue().remainingTimeProperty().asObject());
+
+        table.setItems(processList);
+
         priority_textField.setVisible(false);
         priority_label.setVisible(false);
         quantumTime_label.setVisible(false);
@@ -197,33 +213,57 @@ public class UI_controller implements Initializable {
         int arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());
         int burstTime = Integer.parseInt(BurstTime_textField.getText());
 
+        int priority = 0;
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
-            int priority = Integer.parseInt(priority_textField.getText());
-            table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime, burstTime,burstTime, priority));
-            System.out.println("Adding process: " + processName); //testing
+            priority = Integer.parseInt(priority_textField.getText());
+            //table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime, burstTime,burstTime, priority));
+            //table.getItems().add(new com.example.schedulers.Process(processName, arrivalTime, burstTime, priority));
+            //System.out.println("Adding process: " + processName); //testing
+            com.example.schedulers.Process newProcess = new com.example.schedulers.Process(processName, arrivalTime, burstTime, priority);
+            processList.add(newProcess);
+            table.refresh();
+
+            ProcessName_textField.clear();
+            ArrivalTime_textField.clear();
+            BurstTime_textField.clear();
+            priority_textField.clear();
+
+            System.out.println("Adding process: " + processName);
 
         } else {
-            table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime,burstTime,burstTime));
-            System.out.println("Adding process: " + processName); //testing
+            //table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime,burstTime,burstTime));
+            //table.getItems().add(new com.example.schedulers.Process(processName, arrivalTime, burstTime, priority));
+            //System.out.println("Adding process: " + processName); //testing
 
+            com.example.schedulers.Process newProcess = new com.example.schedulers.Process(processName, arrivalTime, burstTime);
+            processList.add(newProcess);
+            table.refresh();
+
+            ProcessName_textField.clear();
+            ArrivalTime_textField.clear();
+            BurstTime_textField.clear();
+            priority_textField.clear();
+
+            System.out.println("Adding process: " + processName);
         }
     }
 
 
     public void startSimulation(ActionEvent actionEvent) {
-        ObservableList<ProcessInfo> allProcesses = table.getItems();
-        List<Process> processList = new ArrayList<>();
+        //ObservableList<ProcessInfo> allProcesses = table.getItems();
+        //ObservableList<Process> allProcesses = table.getItems();
+        //List<Process> processList = new ArrayList<>();
         switch (SchedulingMethod_choiceList.getValue()) {
             case "FCFS":
-                for (ProcessInfo info : table.getItems()) {
-                    Process p = new Process(info.getName(), info.getArrivalTime(), info.getBurstTime());
-                    processList.add(p);
-                }
+//                for (ProcessInfo info : table.getItems()) {
+//                    Process p = new Process(info.getName(), info.getArrivalTime(), info.getBurstTime());
+//                    processList.add(p);
+//                }
                 Scheduler scheduler = new FCFS();
                 GanttChart ganttChart = new GanttChart();
-                Simulator simulator = new Simulator(processList, scheduler, ganttChart);
-                simulator.runStatic();
+                Simulator simulator = new Simulator(processList, scheduler, ganttChart, table);
+                simulator.runLive();
                 System.out.println("FCFS here");
                 break;
             case "SJF (Preemptive)":
