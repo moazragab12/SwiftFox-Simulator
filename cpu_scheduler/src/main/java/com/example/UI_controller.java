@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -161,14 +162,18 @@ public class UI_controller implements Initializable {
         switch (SchedulingMethod_choiceList.getValue()) {
             case "Priority (Preemptive)":
             case "Priority (Non-Preemptive)":
+                priority_label.setText("Priority");
                 priority_textField.setVisible(true);
                 priority_label.setVisible(true);
                 priority_col.setVisible(true);
                 break;
 
             case "Round Robin":
-                quantumTime_textField.setVisible(true);
-                quantumTime_label.setVisible(true);
+                priority_label.setText("Quantum Time (ms)");
+                priority_textField.setVisible(true);
+                priority_label.setVisible(true);
+                //quantumTime_textField.setVisible(true);
+                //quantumTime_label.setVisible(true);
                 break;
 
             default:
@@ -181,16 +186,16 @@ public class UI_controller implements Initializable {
     }
 
     @FXML
-    void addProcess(ActionEvent event) {
+    public void addProcess(ActionEvent event) {
         //ObservableList<Process> currentTableData = table.getItems();
 
         String processName = ProcessName_textField.getText();
         int arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());
         int burstTime = Integer.parseInt(BurstTime_textField.getText());
-        int priority = Integer.parseInt(priority_textField.getText());
 
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
+            int priority = Integer.parseInt(priority_textField.getText());
             table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime, burstTime,burstTime, priority));
             System.out.println("Adding process: " + processName); //testing
 
@@ -201,4 +206,9 @@ public class UI_controller implements Initializable {
         }
     }
 
+
+    public void startSimulation(ActionEvent actionEvent) {
+
+    }
 }
+
