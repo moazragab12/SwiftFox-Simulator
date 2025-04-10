@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1077.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1233.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.SecondaryController">
    <children>
       <VBox layoutX="14.0" layoutY="197.0" prefHeight="394.0" prefWidth="292.0" spacing="10.0" styleClass="pane" stylesheets="@style.css">
          <children>
@@ -73,10 +73,9 @@
                </children>
             </HBox>
          </children></VBox>
-      <HBox id="ContainerOfGanttChart" layoutX="16.0" layoutY="81.0" prefHeight="100.0" prefWidth="1044.0" styleClass="VBoxFields" stylesheets="@style.css" />
       <AnchorPane layoutX="323.0" layoutY="197.0" prefHeight="574.0" prefWidth="738.0" styleClass="pane" stylesheets="@style.css">
          <children>
-            <Button fx:id="addBtn" alignment="CENTER" layoutX="514.0" layoutY="31.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="171.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
+            <Button fx:id="addBtn" alignment="CENTER" layoutX="514.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#SimulationStart" prefHeight="38.0" prefWidth="171.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
                <font>
                   <Font name="Century Gothic Bold" size="16.0" />
                </font>
@@ -118,7 +117,7 @@
               </columns>
             </TableView>
             <HBox layoutX="533.0" layoutY="25.0" prefHeight="42.0" prefWidth="27.0" />
-            <CheckBox layoutX="300.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" stylesheets="@style.css" text="Live Simulation" />
+            <CheckBox fx:id="LivecheckBox" layoutX="300.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" stylesheets="@style.css" text="Live Simulation" />
          </children>
       </AnchorPane>
       <VBox layoutX="15.0" layoutY="599.0" prefHeight="173.0" prefWidth="288.0" styleClass="pane" stylesheets="@style.css">
@@ -164,5 +163,6 @@
             <Font name="Century Gothic Bold" size="23.0" />
          </font>
       </Label>
+      <VBox fx:id="ContainerOfGanttChart" layoutX="29.0" layoutY="80.0" prefHeight="111.0" prefWidth="1200.0" styleClass="VBoxFields" />
    </children>
 </AnchorPane>

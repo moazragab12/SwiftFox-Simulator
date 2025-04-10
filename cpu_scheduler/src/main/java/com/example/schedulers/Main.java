@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main
-{
+{  public static GanttChart chart = new GanttChart();
     public static void main(String[] args)
     {
+
         // Create processes
         List<Process> processes = new ArrayList<>();
 
@@ -14,7 +15,6 @@ public class Main
         processes.add(new Process("P2", 12, 1, 2));
 
         // Initialize components
-        GanttChart chart = new GanttChart();
         Scheduler scheduler = new Priority(false); // Round Robin with quantum=2
         Simulator simulator = new Simulator(processes, scheduler, chart);
 
