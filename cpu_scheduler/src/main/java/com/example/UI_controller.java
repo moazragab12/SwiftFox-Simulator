@@ -1,8 +1,12 @@
 package com.example;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import com.example.schedulers.*;
+import com.example.schedulers.Process;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +45,7 @@ public class UI_controller implements Initializable {
     private HBox ghantt_HBox;
 
     @FXML
-    private TableView<com.example.ProcessInfo> table;
+    public TableView<com.example.ProcessInfo> table;
 
     @FXML
     private Button start_btn1;
@@ -200,7 +204,7 @@ public class UI_controller implements Initializable {
             System.out.println("Adding process: " + processName); //testing
 
         } else {
-            table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime, burstTime,burstTime));
+            table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime,burstTime,burstTime));
             System.out.println("Adding process: " + processName); //testing
 
         }
@@ -208,7 +212,44 @@ public class UI_controller implements Initializable {
 
 
     public void startSimulation(ActionEvent actionEvent) {
+        ObservableList<ProcessInfo> allProcesses = table.getItems();
+        List<Process> processList = new ArrayList<>();
+        switch (SchedulingMethod_choiceList.getValue()) {
+            case "FCFS":
+                for (ProcessInfo info : table.getItems()) {
+                    Process p = new Process(info.getName(), info.getArrivalTime(), info.getBurstTime());
+                    processList.add(p);
+                }
+                Scheduler scheduler = new FCFS();
+                GanttChart ganttChart = new GanttChart();
+                Simulator simulator = new Simulator(processList, scheduler, ganttChart);
+                simulator.runStatic();
+                System.out.println("FCFS here");
+                break;
+            case "SJF (Preemptive)":
+
+                break;
+            case "SJF (Non-Preemptive)":
+                break;
+            case "Priority (Preemptive)":
+                break;
+            case "Priority (Non-Preemptive)":
+
+                break;
+
+            case "Round Robin":
+
+                break;
+        }
+        for (Process process : processList) {
+            System.out.println("Process: " + process.getName() +
+                    ", Arrival: " + process.getArrivalTime() +
+                    ", Burst: " + process.getBurstTime() +
+                    ", Priority: " + process.getPriority());
+            System.out.println(process.getRemainingTime());
+        }
 
     }
+
 }
 
