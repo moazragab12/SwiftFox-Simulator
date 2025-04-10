@@ -1,15 +1,14 @@
 
 package com.example;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
 
 /**
  * JavaFX App
@@ -26,7 +25,7 @@ public class App extends Application {
         stage.sizeToScene();
         stage.setMaximized(true);
         stage.setTitle("SwiftFox");
-        stage.getIcons().add(new Image(getClass().getResource("/images/fox_icon.jpeg").toExternalForm()));
+        stage.getIcons().add(new Image(getClass().getResource("images/fox_icon.jpeg").toExternalForm()));
         stage.show();
     }
 
