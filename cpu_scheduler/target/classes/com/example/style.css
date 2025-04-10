@@ -140,3 +140,49 @@
     -fx-border-color: #e2e8f0;
     -fx-border-radius:5;
 }
+
+
+
+
+/* ✨ Glowing text style */
+.glowing-text {
+    -fx-font-family: 'Arial';
+    -fx-background-color: white;
+    -fx-padding: 20;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-font-size: 36px;
+    -fx-text-fill: #ff4500; /* JavaFX uses -fx-text-fill for text */
+    -fx-effect: innershadow(gaussian, #ff4500, 10, 0.5, 0, 0);
+}
+
+/* Glowing text on hover */
+.glowing-text:hover {
+    -fx-effect: innershadow(gaussian, #ff6347, 15, 0.8, 0, 0);
+    -fx-text-fill: #ff6347;
+}
+
+/* 🦊 Fox-themed main title with glow */
+.main-title {
+    -fx-font-size: 60px;
+    -fx-font-family: 'Georgia', serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FF7F32;
+    -fx-effect: dropshadow(gaussian, #FF4500, 15, 0.6, 0, 0);
+    -fx-text-alignment: center;
+    -fx-padding: 20 0 20 0;
+}
+
+/* Hover effect for the main title */
+.main-title:hover {
+    -fx-text-fill: #FF8C00;
+    -fx-effect: innershadow(gaussian, #FF6347, 20, 1, 0, 0);
+}
+
+/* Active/clicked state of the main title */
+.main-title:active {
+    -fx-text-fill: #FF4500;
+    -fx-effect: innershadow(gaussian, #FF6347, 25, 1.2, 0, 0);
+}
+
+
