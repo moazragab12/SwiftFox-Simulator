@@ -1,12 +1,15 @@
+
 package com.example;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JavaFX App
@@ -17,9 +20,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("updated-UI"));
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         stage.setScene(scene);
+        stage.sizeToScene();
+        stage.setMaximized(true);
+        stage.setTitle("SwiftFox");
+        stage.getIcons().add(new Image(getClass().getResource("/images/fox_icon.jpeg").toExternalForm()));
         stage.show();
     }
 

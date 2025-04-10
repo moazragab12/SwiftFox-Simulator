@@ -25,46 +25,47 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1077.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1077.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SecondaryController.java">
    <children>
-      <VBox layoutX="14.0" layoutY="197.0" prefHeight="394.0" prefWidth="292.0" spacing="10.0" styleClass="pane" stylesheets="@style.css">
+      <VBox fx:id="addProcess_VBox" layoutX="14.0" layoutY="197.0" prefHeight="394.0" prefWidth="292.0" spacing="10.0" styleClass="pane" stylesheets="@style.css">
          <children>
-            <Label text="Scheduling Method" textFill="#25265e">
+            <Label fx:id="SchedulingMethod_label" text="Scheduling Method" textFill="#25265e">
                <font>
                   <Font name="Century Gothic" size="20.0" />
                </font>
             </Label>
-            <ChoiceBox prefHeight="31.0" prefWidth="257.0" style="-fx-background-color: transparent; -fx-border-color: #e2e8f0; -fx-border-radius: 5;" styleClass="choiceBox" />
+            <ChoiceBox fx:id="SchedulingMethod_choiceList" prefHeight="31.0" prefWidth="257.0" style="-fx-background-color: transparent; -fx-border-color: #e2e8f0; -fx-border-radius: 5;" styleClass="choiceBox" />
          <!--   <DropdownButton minWidth="250.0" prefHeight="34.0" prefWidth="146.0" style="-fx-padding: 5; -fx-border-color: #e2e8f0; -fx-background-color: transparent; -fx-border-radius: 5;" styleClass="VBoxFields">
                 <items>
-                    <MenuItem text="Choice 1" />
-                    <MenuItem text="Choice 2" />
-                    <MenuItem text="Choice 3" />
-                </items>
-            </DropdownButton> -->
-            <Label prefHeight="18.0" prefWidth="198.0" text="Process Name" textFill="#25265e">
+                                <MenuItem text="Choice 1" />
+                                <MenuItem text="Choice 2" />
+                                <MenuItem text="Choice 3" />
+                            </items>
+                        </DropdownButton> -->
+            <Label fx:id="ProcessName_label" prefHeight="18.0" prefWidth="198.0" text="Process Name" textFill="#25265e">
                <font>
                   <Font name="Century Gothic" size="20.0" />
                </font>
             </Label>
-            <TextField styleClass="VBoxFields" stylesheets="@style.css" />
-            <Label prefHeight="18.0" prefWidth="205.0" text="Arrival Time" textFill="#25265e">
+            <TextField fx:id="ProcessName_textField" styleClass="VBoxFields" stylesheets="@style.css" />
+            <Label fx:id="ArrivalTime_label" prefHeight="18.0" prefWidth="205.0" text="Arrival Time" textFill="#25265e">
                <font>
                   <Font name="Century Gothic" size="20.0" />
                </font>
             </Label>
-            <TextField styleClass="VBoxFields" stylesheets="@style.css" />
-            <Label prefHeight="18.0" prefWidth="190.0" text="Burst Time" textFill="#25265e">
+            <TextField fx:id="ArrivalTime_textField" styleClass="VBoxFields" stylesheets="@style.css" />
+            <Label fx:id="BurstTime_label" prefHeight="18.0" prefWidth="190.0" text="Burst Time" textFill="#25265e">
                <font>
                   <Font name="Century Gothic" size="20.0" />
                </font>
             </Label>
-            <TextField styleClass="VBoxFields" stylesheets="@style.css" />
+            <TextField fx:id="BurstTime_textField" styleClass="VBoxFields" stylesheets="@style.css" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <AnchorPane prefHeight="41.0" prefWidth="250.0">
                      <children>
-                        <Button fx:id="addBtn1" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="252.0" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
+                        <Button fx:id="addProcess_btn" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="252.0" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
                            <font>
                               <Font name="Century Gothic Bold" size="34.0" />
                            </font>
@@ -78,16 +79,17 @@
                   </AnchorPane>
                </children>
             </HBox>
-         </children></VBox>
-      <HBox layoutX="16.0" layoutY="81.0" prefHeight="100.0" prefWidth="1044.0" styleClass="pane" stylesheets="@style.css" />
-      <AnchorPane layoutX="323.0" layoutY="197.0" prefHeight="574.0" prefWidth="738.0" styleClass="pane" stylesheets="@style.css">
+         </children>
+      </VBox>
+      <HBox fx:id="ghantt_HBox" layoutX="16.0" layoutY="81.0" prefHeight="100.0" prefWidth="1044.0" styleClass="pane" stylesheets="@style.css" />
+      <AnchorPane fx:id="table_box" layoutX="323.0" layoutY="197.0" prefHeight="574.0" prefWidth="738.0" styleClass="pane" stylesheets="@style.css">
          <children>
-            <Button fx:id="addBtn" alignment="CENTER" layoutX="514.0" layoutY="31.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="171.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
+            <Button fx:id="start_btn" alignment="CENTER" layoutX="514.0" layoutY="31.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="171.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
                <font>
                   <Font name="Century Gothic Bold" size="16.0" />
                </font>
             </Button>
-            <Label layoutX="52.0" layoutY="31.0" text="Processes" textFill="#25265e">
+            <Label fx:id="processesLabel" layoutX="52.0" layoutY="31.0" text="Processes" textFill="#25265e">
                <font>
                   <Font name="Century Gothic Bold" size="34.0" />
                </font>
@@ -95,7 +97,7 @@
                   <Insets top="100.0" />
                </opaqueInsets>
             </Label>
-            <TableView layoutX="52.0" layoutY="104.0" prefHeight="405.0" prefWidth="631.0" stylesheets="@style.css">
+            <TableView fx:id="table" layoutX="52.0" layoutY="104.0" prefHeight="405.0" prefWidth="631.0" stylesheets="@style.css">
               <columns>
                 <TableColumn prefWidth="138.4000244140625" text="ProcessID">
                      <styleClass>
@@ -124,10 +126,10 @@
               </columns>
             </TableView>
             <HBox layoutX="533.0" layoutY="25.0" prefHeight="42.0" prefWidth="27.0" />
-            <CheckBox layoutX="300.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" stylesheets="@style.css" text="Live Simulation" />
+            <CheckBox fx:id="liveSimulation_btn" layoutX="300.0" layoutY="44.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="162.0" stylesheets="@style.css" text="Live Simulation" />
          </children>
       </AnchorPane>
-      <VBox layoutX="15.0" layoutY="599.0" prefHeight="173.0" prefWidth="288.0" styleClass="pane" stylesheets="@style.css">
+      <VBox fx:id="summary_HBox" layoutX="15.0" layoutY="599.0" prefHeight="173.0" prefWidth="288.0" styleClass="pane" stylesheets="@style.css">
          <children>
             <HBox fx:id="summaryHBox" prefHeight="40.0" prefWidth="189.0" styleClass="summaryHBox">
                <children>
@@ -136,7 +138,7 @@
                         <Image url="@../../images/1e831b7e404a68682574a59454514577.jpg" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="16.0" prefWidth="128.0" styleClass="summaryHBox" stylesheets="@style.css" text="Summary" textFill="#25265e">
+                  <Label fx:id="summary_label" prefHeight="16.0" prefWidth="128.0" styleClass="summaryHBox" stylesheets="@style.css" text="Summary" textFill="#25265e">
                      <font>
                         <Font name="Century Gothic Bold" size="23.0" />
                      </font>
@@ -145,27 +147,27 @@
             </HBox>
             <FlowPane fx:id="summaryDetails" prefHeight="88.0" prefWidth="212.0" style="-fx-padding: 10;">
                <children>
-                  <Label prefHeight="18.0" prefWidth="180.0" text="Average Turnaround Time:" textFill="#25265e">
+                  <Label fx:id="Average_Turnaround_Time_label" prefHeight="18.0" prefWidth="180.0" text="Average Turnaround Time:" textFill="#25265e">
                      <font>
                         <Font name="Century Gothic Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="avgTurnAroundBtn" prefHeight="25.0" prefWidth="26.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
+                  <TextField fx:id="Average_Turnaround_Time_textField" prefHeight="25.0" prefWidth="26.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextField>
-                  <Label text="Average Waiting Time:" textFill="#25265e">
+                  <Label fx:id="Average_Waiting_Time_label" text="Average Waiting Time:" textFill="#25265e">
                      <font>
                         <Font name="Century Gothic Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="avgWaitingBtn" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
+                  <TextField fx:id="Average_Waiting_Time_textField" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
                </children>
             </FlowPane>
          </children>
       </VBox>
-      <Label layoutX="23.0" layoutY="50.0" prefHeight="30.0" prefWidth="162.0" text="Gantt Chart" textFill="#25265e">
+      <Label fx:id="ghantt_label" layoutX="23.0" layoutY="50.0" prefHeight="30.0" prefWidth="162.0" text="Gantt Chart" textFill="#25265e">
          <font>
             <Font name="Century Gothic Bold" size="23.0" />
          </font>
