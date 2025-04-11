@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import com.example.schedulers.*;
 import com.example.schedulers.Process;
 import javafx.collections.FXCollections;
@@ -45,17 +44,12 @@ public class UI_controller implements Initializable {
     private Label SchedulingMethod_label;
 
     @FXML
-    private HBox ghantt_HBox;
+    private VBox ghantt_VBox;
 
-    ObservableList<Process> currentTableData = FXCollections.observableArrayList();
+    private ObservableList<Process> currentTableData = FXCollections.observableArrayList();
 
     @FXML
-<<<<<<< HEAD
     public TableView<com.example.schedulers.Process> table;
-=======
-    private TableView<com.example.schedulers.Process> table;
-    //private TableView<com.example.ProcessInfo> table;
->>>>>>> 230accb5d327185e0d8ef92198f6dfdeb71e078d
 
     @FXML
     private Button start_btn1;
@@ -143,9 +137,6 @@ public class UI_controller implements Initializable {
     @FXML
     private Button goBack_btn;
 
-    private ObservableList<com.example.schedulers.Process> processList = FXCollections.observableArrayList();
-
-
     @FXML
     void goBack(ActionEvent event) {
         try {
@@ -158,31 +149,12 @@ public class UI_controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-<<<<<<< HEAD
         table.setItems(currentTableData);
         processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
         burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
         priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
-=======
-//        processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
-//        arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
-//        burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
-//        priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
-
-        processName_col.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        remaining_col.setCellValueFactory(cellData -> cellData.getValue().remainingTimeProperty().asObject());
-        arrival_col.setCellValueFactory(cellData -> cellData.getValue().arrivalTimeProperty().asObject());
-        burst_col.setCellValueFactory(cellData -> cellData.getValue().burstTimeProperty().asObject());
-        priority_col.setCellValueFactory(cellData -> cellData.getValue().priorityProperty().asObject());
-
-        remaining_col.setCellValueFactory(cellData -> cellData.getValue().remainingTimeProperty().asObject());
-
-        table.setItems(processList);
-
->>>>>>> 230accb5d327185e0d8ef92198f6dfdeb71e078d
         priority_textField.setVisible(false);
         priority_label.setVisible(false);
         quantumTime_label.setVisible(false);
@@ -284,47 +256,14 @@ public class UI_controller implements Initializable {
         int priority = 0;
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
-<<<<<<< HEAD
 
-            int priority = Integer.parseInt(priority_textField.getText());
+            priority = Integer.parseInt(priority_textField.getText());
             Process p = new Process(processName, arrivalTime, burstTime, priority);
             currentTableData.add(p);
 
         } else {
             Process p = new Process(processName, arrivalTime, burstTime);
             currentTableData.add(p);
-=======
-            priority = Integer.parseInt(priority_textField.getText());
-            //table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime, burstTime,burstTime, priority));
-            //table.getItems().add(new com.example.schedulers.Process(processName, arrivalTime, burstTime, priority));
-            //System.out.println("Adding process: " + processName); //testing
-            com.example.schedulers.Process newProcess = new com.example.schedulers.Process(processName, arrivalTime, burstTime, priority);
-            processList.add(newProcess);
-            table.refresh();
-
-            ProcessName_textField.clear();
-            ArrivalTime_textField.clear();
-            BurstTime_textField.clear();
-            priority_textField.clear();
-
-            System.out.println("Adding process: " + processName);
-
-        } else {
-            //table.getItems().add(new com.example.ProcessInfo(processName, arrivalTime,burstTime,burstTime));
-            //table.getItems().add(new com.example.schedulers.Process(processName, arrivalTime, burstTime, priority));
-            //System.out.println("Adding process: " + processName); //testing
-
-            com.example.schedulers.Process newProcess = new com.example.schedulers.Process(processName, arrivalTime, burstTime);
-            processList.add(newProcess);
-            table.refresh();
-
-            ProcessName_textField.clear();
-            ArrivalTime_textField.clear();
-            BurstTime_textField.clear();
-            priority_textField.clear();
-
-            System.out.println("Adding process: " + processName);
->>>>>>> 230accb5d327185e0d8ef92198f6dfdeb71e078d
         }
 
         ProcessName_textField.clear();
@@ -336,28 +275,8 @@ public class UI_controller implements Initializable {
 
 
     public void startSimulation(ActionEvent actionEvent) {
-<<<<<<< HEAD
-        
         
     }
-=======
-        //ObservableList<ProcessInfo> allProcesses = table.getItems();
-        //ObservableList<Process> allProcesses = table.getItems();
-        //List<Process> processList = new ArrayList<>();
-        switch (SchedulingMethod_choiceList.getValue()) {
-            case "FCFS":
-//                for (ProcessInfo info : table.getItems()) {
-//                    Process p = new Process(info.getName(), info.getArrivalTime(), info.getBurstTime());
-//                    processList.add(p);
-//                }
-                Scheduler scheduler = new FCFS();
-                GanttChart ganttChart = new GanttChart();
-                Simulator simulator = new Simulator(processList, scheduler, ganttChart, table);
-                simulator.runLive();
-                System.out.println("FCFS here");
-                break;
-            case "SJF (Preemptive)":
->>>>>>> 230accb5d327185e0d8ef92198f6dfdeb71e078d
 
     
 

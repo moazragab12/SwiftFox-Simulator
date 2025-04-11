@@ -35,14 +35,14 @@
           <RowConstraints maxHeight="255.0" minHeight="10.0" prefHeight="232.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="1288.0" style="-fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);" GridPane.columnSpan="2">
+            <VBox fx:id="ghantt_VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="1288.0" style="-fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);" GridPane.columnSpan="2">
                <children>
                   <Label fx:id="ghantt_label" prefHeight="30.0" prefWidth="162.0" text="Gantt Chart" textFill="#25265e">
                      <font>
                         <Font name="Century Gothic Bold" size="23.0" />
                      </font>
                   </Label>
-                  <HBox fx:id="ghantt_HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.0" prefWidth="1255.0" styleClass="pane" stylesheets="@style.css" translateY="5.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="pane" stylesheets="@style.css" />
                </children>
                <effect>
                   <Shadow height="0.0" radius="0.0" width="0.0" />
