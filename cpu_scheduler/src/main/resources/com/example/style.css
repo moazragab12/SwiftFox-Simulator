@@ -47,7 +47,7 @@
 .table-view .filler {
     -fx-size: 40px;
     -fx-background-color: transparent;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
 }
 
 .table-view .label {
@@ -60,7 +60,7 @@
 .table-cell {
     -fx-padding: 6 10;
     -fx-border-color: transparent;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
     -fx-font-size: 13px;
     -fx-text-fill: #25265e;
 }
@@ -128,7 +128,7 @@
 .check-box:selected .mark {
     -fx-background-color: white;
 
-}}
+}
 
 /* On hover */
 .check-box:hover .box {
