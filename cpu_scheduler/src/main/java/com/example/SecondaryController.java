@@ -73,7 +73,10 @@ public class SecondaryController {
     }
 
     private void addProcess(int i) {
-        String taskname = chart.getEntries().get(i - 1).getProcess().getName() +" "+ i;
+        String taskname = "IDLE "+i;
+        if (chart.getEntries().get(i - 1).getProcess()!=null) {
+            taskname = chart.getEntries().get(i - 1).getProcess().getName() +" "+ i;
+        }
         double rectWidth = 10 * taskname.length();
 
         // Create rectangle with text
@@ -82,9 +85,8 @@ public class SecondaryController {
         centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
         Rectangle rectangle = new Rectangle(rectWidth, 80);
-        rectangle.setFill(Color.LIGHTGRAY);
+        rectangle.setFill(Color.DARKCYAN);
         rectangle.setStroke(Color.BLACK);
-
         StackPane stackPane = new StackPane(rectangle, centerText);
         rectanglesBox.getChildren().add(stackPane);
 
