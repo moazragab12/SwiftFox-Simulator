@@ -1,16 +1,18 @@
 package com.example;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
+
 import com.example.schedulers.*;
 import com.example.schedulers.Process;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -22,8 +24,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+
+//import static com.example.schedulers.Main.chart;
 
 public class UI_controller implements Initializable {
 
@@ -137,12 +145,17 @@ public class UI_controller implements Initializable {
     @FXML
     private Button goBack_btn;
 
+    private HBox rectanglesBox = new HBox();
+    private HBox timelineBox = new HBox();
+    GanttChart chart;
+
     @FXML
     void goBack(ActionEvent event) {
         try {
             // Use App.setRoot() to switch back to the primary window
             App.setRoot("primary"); // The name of your primary window FXML
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -150,6 +163,8 @@ public class UI_controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setItems(currentTableData);
+        timelineBox.setAlignment(Pos.BOTTOM_LEFT);
+        ghantt_VBox.getChildren().addAll(rectanglesBox, timelineBox);
         processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
@@ -160,7 +175,7 @@ public class UI_controller implements Initializable {
         quantumTime_label.setVisible(false);
         quantumTime_textField.setVisible(false);
         priority_col.setVisible(false);
-        SchedulingMethod_choiceList.getItems().addAll("FCFS","SJF (Preemptive)","SJF (Non-Preemptive)","Priority (Preemptive)","Priority (Non-Preemptive)","Round Robin");
+        SchedulingMethod_choiceList.getItems().addAll("FCFS", "SJF (Preemptive)", "SJF (Non-Preemptive)", "Priority (Preemptive)", "Priority (Non-Preemptive)", "Round Robin");
         SchedulingMethod_choiceList.setValue("FCFS");
         SchedulingMethod_choiceList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             handleSchedulingChoice(newVal);
@@ -196,8 +211,8 @@ public class UI_controller implements Initializable {
 
     @FXML
     public void addProcess(ActionEvent event) {
-      
-      
+
+
         // Check if the text fields are empty before adding a process
         if (ProcessName_textField.getText().isEmpty() || ArrivalTime_textField.getText().isEmpty() || BurstTime_textField.getText().isEmpty()) {
             System.out.println("Please fill in all fields.");
@@ -226,7 +241,8 @@ public class UI_controller implements Initializable {
             } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
                 Integer.parseInt(quantumTime_textField.getText());
             }
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             System.out.println("Please enter valid integer values.");
             return;
         }
@@ -275,10 +291,64 @@ public class UI_controller implements Initializable {
 
 
     public void startSimulation(ActionEvent actionEvent) {
-        
+        chart = new GanttChart();
+        Simulator simulator = new Simulator(currentTableData, new Priority(false), chart);
+        ObservableList<GanttEntry> entries = chart.getEntries();
+
+        entries.addListener(new ListChangeListener<GanttEntry>() {
+            @Override
+            public void onChanged(Change<? extends GanttEntry> change) {
+                // Call ProccessHandler whenever the list changes
+                ProccessHandler();
+            }
+        });
+       if( !liveSimulation_btn.isSelected())
+             simulator.runStatic();
+       else
+            simulator.runLive();
+
     }
 
-    
+
+    private void ProccessHandler() {
+        if (chart.getEntries().isEmpty()) {
+            System.out.println("Please add processes to the table before starting the simulation.");
+            return;
+        }
+        System.out.println("Size of rectanglesBox: " + rectanglesBox.getChildren().size());
+        int TasksSize = chart.getEntries().size();
+        shownewproccess(TasksSize);
+    }
+
+    private void shownewproccess(int i) {
+        String taskname = "IDLE ";
+        System.out.println("Process ID: " + i);
+        if (chart.getEntries().get(i - 1).getProcess() != null) {
+            taskname = chart.getEntries().get(i - 1).getProcess().getName();
+        }
+        double rectWidth = 10 * taskname.length();
+
+        // Create rectangle with text
+        Text centerText = new Text(taskname);
+        centerText.setFill(Color.BLACK);
+        centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        Rectangle rectangle = new Rectangle(rectWidth, 70);
+        rectangle.setFill(Color.DARKCYAN);
+        rectangle.setStroke(Color.BLACK);
+        StackPane stackPane = new StackPane(rectangle, centerText);
+        rectanglesBox.getChildren().add(stackPane);
+
+        // Create number with alignment
+        Text numberText = new Text(String.valueOf(i));
+        numberText.setStyle("-fx-font-size: 12px;");
+
+        StackPane numberContainer = new StackPane(numberText);
+        numberContainer.setMinWidth(rectWidth + 1);
+        numberContainer.setAlignment(Pos.BOTTOM_RIGHT);
+
+        timelineBox.getChildren().add(numberContainer);
+    }
 
     @FXML
     void goBack(MouseEvent event) {

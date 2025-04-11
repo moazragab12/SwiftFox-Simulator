@@ -23,6 +23,8 @@ public final class Simulator
         this.scheduler = Objects.requireNonNull(scheduler);
         this.ganttChart = Objects.requireNonNull(ganttChart);
         this.processes = new ArrayList<>(Objects.requireNonNull(processes));
+        table= new TableView<>(); //added it because it was not initialized and gave null pointer exception
+
     }
     public Simulator(List<Process> processes, Scheduler scheduler, GanttChart ganttChart, TableView<Process> table)
     {
