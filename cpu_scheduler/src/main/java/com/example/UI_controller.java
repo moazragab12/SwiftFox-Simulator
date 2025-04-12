@@ -143,8 +143,10 @@ public class UI_controller implements Initializable {
 
     private HBox rectanglesBox = new HBox();
     private HBox timelineBox = new HBox();
+    Scheduler scheduler;
     GanttChart chart;
     Simulator simulator;
+    int rr;
 
     @FXML
     void goBack(ActionEvent event) {
@@ -193,6 +195,7 @@ public class UI_controller implements Initializable {
                 priorityQuantum_label.setText("Quantum Time (ms)");
                 priorityQuantum_textField.setVisible(true);
                 priorityQuantum_label.setVisible(true);
+                priority_col.setVisible(false);
                 //quantumTime_textField.setVisible(true);
                 //quantumTime_label.setVisible(true);
                 break;
@@ -236,7 +239,7 @@ public class UI_controller implements Initializable {
                     SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
                 Integer.parseInt(priorityQuantum_textField.getText());
             } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-                Integer.parseInt(priorityQuantum_textField.getText());
+                rr = Integer.parseInt(priorityQuantum_textField.getText());
             }
         }
         catch (NumberFormatException e) {
@@ -287,8 +290,9 @@ public class UI_controller implements Initializable {
     }
 
     public void startSimulation(ActionEvent actionEvent) {
+        scheduler = getScheduler();
         chart = new GanttChart();
-        simulator = new Simulator(currentTableData, new Priority(false), chart);
+        simulator = new Simulator(currentTableData, scheduler, chart);
         ObservableList<GanttEntry> entries = chart.getEntries();
 
         entries.addListener(new ListChangeListener<GanttEntry>() {
@@ -298,6 +302,17 @@ public class UI_controller implements Initializable {
                 ProccessHandler();
             }
         });
+
+        // Ensure a new task is created each time the button is clicked
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                simulator.runLive();   // Run the simulation in the background
+                getResults(chart);     // Update the results (presumably updates the chart)
+                return null;
+            }
+        };
+
         if (!liveSimulation_btn.isSelected()){
             simulator.runStatic();
             getResults(chart);
@@ -307,15 +322,6 @@ public class UI_controller implements Initializable {
 
 
     }
-
-    Task<Void> task = new Task<Void>() {
-        @Override
-        protected Void call() throws Exception {
-            simulator.runLive();
-            getResults(chart);
-            return null;
-        }
-    };
 
 
     private void ProccessHandler() {
@@ -331,6 +337,30 @@ public class UI_controller implements Initializable {
                 shownewproccess(tasksSize);
             });
         }
+    }
+
+    private Scheduler getScheduler(){
+        switch (SchedulingMethod_choiceList.getValue()){
+            case "FCFS":
+                scheduler = new FCFS();
+                break;
+            case "SJF (Preemptive)":
+                scheduler = new SJF(true);
+                break;
+            case "SJF (Non-Preemptive)":
+                scheduler = new SJF(false);
+                break;
+            case "Priority (Preemptive)":
+                scheduler = new Priority(true);
+                break;
+            case "Priority (Non-Preemptive)":
+                scheduler = new Priority(false);
+                break;
+            case "Round Robin":
+                scheduler = new RR(rr);
+                break;
+        }
+        return scheduler;
     }
 
     private void getResults(GanttChart gaunt){
@@ -380,6 +410,8 @@ public class UI_controller implements Initializable {
         table.getItems().clear();
         rectanglesBox.getChildren().clear();
         timelineBox.getChildren().clear();
+        Average_Waiting_Time_textField.clear();
+        Average_Turnaround_Time_textField.clear();
     }
 }
 

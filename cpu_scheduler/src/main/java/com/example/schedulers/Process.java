@@ -37,7 +37,6 @@ public final class Process {
         remainingTime = Math.max(0, remainingTime - timeUnits);
         if (remainingTime == 0)
             state = ProcessState.TERMINATED;
-        System.out.println(remainingTime);
 
         // Update the remaining time property, which will automatically update the table view
         remainingTimeProperty.set(remainingTime);
