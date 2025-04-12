@@ -60,14 +60,14 @@
 
 #### 2. Run the application using:
    ```bush
-   java -jar cpu-scheduler-simulator.jar
+   java -jar SwiftFox-Simulator.jar
    ```
 ### Option 2: From Source (Maven)
 
 #### 1. Clone the repository
 ```bash
-git clone https://github.com/MoustafaHashem/CPU-Scheduler.git
-cd CPU-Scheduler
+git clone https://github.com/MoustafaHashem/SwiftFox-Simulator.git
+cd SwiftFox-Simulator
 ```
 
 #### 2. Build and run using Maven:
