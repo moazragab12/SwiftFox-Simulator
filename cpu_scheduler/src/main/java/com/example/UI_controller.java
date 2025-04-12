@@ -4,8 +4,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.example.schedulers.*;
+import com.example.schedulers.FCFS;
+import com.example.schedulers.GanttChart;
+import com.example.schedulers.GanttEntry;
+import com.example.schedulers.Priority;
 import com.example.schedulers.Process;
+import com.example.schedulers.RR;
+import com.example.schedulers.Results;
+import com.example.schedulers.SJF;
+import com.example.schedulers.Scheduler;
+import com.example.schedulers.Simulator;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -15,14 +24,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -147,6 +164,7 @@ public class UI_controller implements Initializable {
     GanttChart chart;
     Simulator simulator;
     int rr;
+    boolean isRunning = false;
 
     @FXML
     void goBack(ActionEvent event) {
@@ -211,7 +229,17 @@ public class UI_controller implements Initializable {
 
     @FXML
     public void addProcess(ActionEvent event) {
-
+        int arrivalTime;
+        if (isRunning) { 
+            if(ArrivalTime_textField.getText().isEmpty()){
+                arrivalTime=chart.getEntries().size();
+             }
+             else{
+                arrivalTime=chart.getEntries().size()+Integer.parseInt(ArrivalTime_textField.getText());
+             }
+        }else{
+         arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());}
+         ArrivalTime_textField.setText(arrivalTime+"");
 
         // Check if the text fields are empty before adding a process
         if (ProcessName_textField.getText().isEmpty() || ArrivalTime_textField.getText().isEmpty() || BurstTime_textField.getText().isEmpty()) {
@@ -229,7 +257,7 @@ public class UI_controller implements Initializable {
                 System.out.println("Please fill in all fields.");
                 return;
             }
-        }
+        } 
 
         // Check if the input values are valid integers
         try {
@@ -239,7 +267,15 @@ public class UI_controller implements Initializable {
                     SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
                 Integer.parseInt(priorityQuantum_textField.getText());
             } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-                rr = Integer.parseInt(priorityQuantum_textField.getText());
+                if(table.getItems().isEmpty()){
+                    rr = Integer.parseInt(priorityQuantum_textField.getText());
+                    priorityQuantum_textField.setEditable(false);
+                }
+                else{
+                    priorityQuantum_textField.setText(rr+"");
+                    
+                    
+                }
             }
         }
         catch (NumberFormatException e) {
@@ -266,7 +302,7 @@ public class UI_controller implements Initializable {
 
 
         String processName = ProcessName_textField.getText();
-        int arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());
+       
         int burstTime = Integer.parseInt(BurstTime_textField.getText());
 
         int priority = 0;
@@ -276,16 +312,20 @@ public class UI_controller implements Initializable {
             priority = Integer.parseInt(priorityQuantum_textField.getText());
             Process p = new Process(processName, arrivalTime, burstTime, priority);
             currentTableData.add(p);
-
+            if (isRunning) {
+                simulator.addProcess(p);
+            }
         } else {
             Process p = new Process(processName, arrivalTime, burstTime);
             currentTableData.add(p);
+            if (isRunning) {
+                simulator.addProcess(p);
+            }
         }
-
+        
         ProcessName_textField.clear();
         ArrivalTime_textField.clear();
         BurstTime_textField.clear();
-        priorityQuantum_textField.clear();
         quantumTime_textField.clear();
     }
 
@@ -294,6 +334,7 @@ public class UI_controller implements Initializable {
         chart = new GanttChart();
         simulator = new Simulator(currentTableData, scheduler, chart);
         ObservableList<GanttEntry> entries = chart.getEntries();
+        isRunning = true;
 
         entries.addListener(new ListChangeListener<GanttEntry>() {
             @Override
@@ -309,6 +350,17 @@ public class UI_controller implements Initializable {
             protected Void call() throws Exception {
                 simulator.runLive();   // Run the simulation in the background
                 getResults(chart);     // Update the results (presumably updates the chart)
+                if (simulator.allProcessesTerminated()) {
+                    // Display an alert window
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Simulation Complete");
+                        alert.setHeaderText(null);
+                        alert.setContentText("All processes have terminated successfully.");
+                        alert.showAndWait();
+                    });
+                    System.out.println("All processes have terminated.");
+                }
                 return null;
             }
         };
@@ -316,9 +368,21 @@ public class UI_controller implements Initializable {
         if (!liveSimulation_btn.isSelected()){
             simulator.runStatic();
             getResults(chart);
+            
         }
         else
             new Thread(task).start();
+           if (simulator.allProcessesTerminated()) {
+    // Display an alert window
+    Platform.runLater(() -> {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Simulation Complete");
+        alert.setHeaderText(null);
+        alert.setContentText("All processes have terminated successfully.");
+        alert.showAndWait();
+    });
+    System.out.println("All processes have terminated.");
+}
 
 
     }
@@ -412,6 +476,8 @@ public class UI_controller implements Initializable {
         timelineBox.getChildren().clear();
         Average_Waiting_Time_textField.clear();
         Average_Turnaround_Time_textField.clear();
-    }
+        isRunning = false;
+      priorityQuantum_textField.setEditable(true);  
+        }
 }
 

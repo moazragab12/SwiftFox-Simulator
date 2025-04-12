@@ -64,7 +64,7 @@
                            </opaqueInsets>
                         </Label>
                         <CheckBox fx:id="liveSimulation_btn" mnemonicParsing="false" prefHeight="46.0" prefWidth="177.0" stylesheets="@style.css" text="Live Simulation" />
-                        <ImageView fx:id="reset" fitHeight="43.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="reset" fitHeight="43.0" fitWidth="55.0" onMouseClicked="#reset" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/reset.png" />
                            </image>
@@ -180,12 +180,12 @@
                   <TextField fx:id="BurstTime_textField" styleClass="VBoxFields" stylesheets="@style.css" />
                   <VBox prefHeight="65.0" prefWidth="370.0" style="-fx-spacing: 5;">
                      <children>
-                        <Label fx:id="priority_label" text="Priority" textFill="#25265e">
+                        <Label fx:id="priorityQuantum_label" text="Priority" textFill="#25265e">
                            <font>
                               <Font name="Century Gothic" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="priority_textField" styleClass="VBoxFields" stylesheets="@style.css" />
+                        <TextField fx:id="priorityQuantum_textField" styleClass="VBoxFields" stylesheets="@style.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="91.0" prefWidth="370.0" style="-fx-spacing: 5;">

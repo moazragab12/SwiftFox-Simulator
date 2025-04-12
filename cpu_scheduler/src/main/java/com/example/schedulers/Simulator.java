@@ -58,7 +58,7 @@ public final class Simulator
         catch (InterruptedException e) {throw new RuntimeException(e);}
     }
 
-    private boolean allProcessesTerminated()
+    public boolean allProcessesTerminated()
     {
         return processes.stream()
                 .allMatch(p -> p.getState() == Process.ProcessState.TERMINATED);
