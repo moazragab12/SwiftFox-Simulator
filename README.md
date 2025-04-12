@@ -44,15 +44,6 @@
 
 ---
 
-## Technology Stack
-
-- Programming Language: Java
-- GUI Framework: JavaFX
-- Build Tool: Maven
-- Concurrency: Java multithreading for real-time scheduling
-
----
-
 ## Getting Started
 
 ### Prerequisites
