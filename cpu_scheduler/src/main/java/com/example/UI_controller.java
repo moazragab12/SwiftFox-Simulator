@@ -6,20 +6,16 @@ import java.util.ResourceBundle;
 
 import com.example.schedulers.*;
 import com.example.schedulers.Process;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -148,6 +144,7 @@ public class UI_controller implements Initializable {
     private HBox rectanglesBox = new HBox();
     private HBox timelineBox = new HBox();
     GanttChart chart;
+    Simulator simulator;
 
     @FXML
     void goBack(ActionEvent event) {
@@ -289,10 +286,9 @@ public class UI_controller implements Initializable {
         quantumTime_textField.clear();
     }
 
-
     public void startSimulation(ActionEvent actionEvent) {
         chart = new GanttChart();
-        Simulator simulator = new Simulator(currentTableData, new Priority(false), chart);
+        simulator = new Simulator(currentTableData, new Priority(false), chart);
         ObservableList<GanttEntry> entries = chart.getEntries();
 
         entries.addListener(new ListChangeListener<GanttEntry>() {
@@ -302,49 +298,65 @@ public class UI_controller implements Initializable {
                 ProccessHandler();
             }
         });
-       if( !liveSimulation_btn.isSelected())
-             simulator.runStatic();
-       else
-            simulator.runLive();
+        if (!liveSimulation_btn.isSelected())
+            simulator.runStatic();
+        else
+            new Thread(task).start();
+
 
     }
 
+    Task<Void> task = new Task<Void>() {
+        @Override
+        protected Void call() throws Exception {
+            simulator.runLive();
+            return null;
+        }
+    };
+
 
     private void ProccessHandler() {
-        if (chart.getEntries().isEmpty()) {
-            System.out.println("Please add processes to the table before starting the simulation.");
-            return;
+        int tasksSize = chart.getEntries().size();
+        if (!liveSimulation_btn.isSelected()) {
+            shownewproccess(tasksSize);
+        } else {
+            Platform.runLater(() -> {
+                if (chart.getEntries().isEmpty()) {
+                    System.out.println("Please add processes to the table before starting the simulation.");
+                    return;
+                }
+                shownewproccess(tasksSize);
+            });
         }
-        System.out.println("Size of rectanglesBox: " + rectanglesBox.getChildren().size());
-        int TasksSize = chart.getEntries().size();
-        shownewproccess(TasksSize);
     }
 
     private void shownewproccess(int i) {
         String taskname = "IDLE ";
-        System.out.println("Process ID: " + i);
+        //  System.out.println("Process ID: " + i);
         if (chart.getEntries().get(i - 1).getProcess() != null) {
             taskname = chart.getEntries().get(i - 1).getProcess().getName();
         }
-        double rectWidth = 10 * taskname.length();
 
         // Create rectangle with text
-        Text centerText = new Text(taskname);
+        Text centerText = new Text();
+        centerText.setText(taskname.length() > 6 ? taskname.substring(0, 6) + "..." : taskname);
         centerText.setFill(Color.BLACK);
         centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
-        Rectangle rectangle = new Rectangle(rectWidth, 70);
+        centerText.setWrappingWidth(50 - 10);
+        Rectangle rectangle = new Rectangle(50, 70);
         rectangle.setFill(Color.DARKCYAN);
         rectangle.setStroke(Color.BLACK);
         StackPane stackPane = new StackPane(rectangle, centerText);
         rectanglesBox.getChildren().add(stackPane);
+        Tooltip tooltip = new Tooltip(taskname);
+        Tooltip.install(stackPane, tooltip);
 
         // Create number with alignment
         Text numberText = new Text(String.valueOf(i));
         numberText.setStyle("-fx-font-size: 12px;");
 
         StackPane numberContainer = new StackPane(numberText);
-        numberContainer.setMinWidth(rectWidth + 1);
+        numberContainer.setMinWidth(50);
         numberContainer.setAlignment(Pos.BOTTOM_RIGHT);
 
         timelineBox.getChildren().add(numberContainer);
