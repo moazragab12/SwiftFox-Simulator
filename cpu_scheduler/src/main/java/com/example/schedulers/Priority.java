@@ -11,7 +11,7 @@ public class Priority extends Scheduler
     {
         this.preemptive = preemptive;
         this.readyQueue = new PriorityQueue<>(Comparator
-                .comparingInt(Process::getPriority).reversed()
+                .comparingInt(Process::getPriority)
                 .thenComparingInt(Process::getArrivalTime)
                 .thenComparingInt(Process::getPid));
     }
