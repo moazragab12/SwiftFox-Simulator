@@ -127,10 +127,10 @@ public class UI_controller implements Initializable {
     private TableColumn<com.example.schedulers.Process, Integer> priority_col;
 
     @FXML
-    private Label priority_label;
+    private Label priorityQuantum_label;
 
     @FXML
-    private TextField priority_textField;
+    private TextField priorityQuantum_textField;
 
     @FXML
     private TextField quantumTime_textField;
@@ -167,8 +167,8 @@ public class UI_controller implements Initializable {
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
         burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
         priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
-        priority_textField.setVisible(false);
-        priority_label.setVisible(false);
+        priorityQuantum_textField.setVisible(false);
+        priorityQuantum_label.setVisible(false);
         quantumTime_label.setVisible(false);
         quantumTime_textField.setVisible(false);
         priority_col.setVisible(false);
@@ -183,16 +183,16 @@ public class UI_controller implements Initializable {
         switch (SchedulingMethod_choiceList.getValue()) {
             case "Priority (Preemptive)":
             case "Priority (Non-Preemptive)":
-                priority_label.setText("Priority");
-                priority_textField.setVisible(true);
-                priority_label.setVisible(true);
+                priorityQuantum_label.setText("Priority");
+                priorityQuantum_textField.setVisible(true);
+                priorityQuantum_label.setVisible(true);
                 priority_col.setVisible(true);
                 break;
 
             case "Round Robin":
-                priority_label.setText("Quantum Time (ms)");
-                priority_textField.setVisible(true);
-                priority_label.setVisible(true);
+                priorityQuantum_label.setText("Quantum Time (ms)");
+                priorityQuantum_textField.setVisible(true);
+                priorityQuantum_label.setVisible(true);
                 //quantumTime_textField.setVisible(true);
                 //quantumTime_label.setVisible(true);
                 break;
@@ -200,8 +200,8 @@ public class UI_controller implements Initializable {
             default:
                 quantumTime_textField.setVisible(false);
                 quantumTime_label.setVisible(false);
-                priority_textField.setVisible(false);
-                priority_label.setVisible(false);
+                priorityQuantum_textField.setVisible(false);
+                priorityQuantum_label.setVisible(false);
                 priority_col.setVisible(false);
         }
     }
@@ -217,12 +217,12 @@ public class UI_controller implements Initializable {
         }
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
-            if (priority_textField.getText().isEmpty()) {
+            if (priorityQuantum_textField.getText().isEmpty()) {
                 System.out.println("Please fill in all fields.");
                 return;
             }
         } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-            if (quantumTime_textField.getText().isEmpty()) {
+            if (priorityQuantum_textField.getText().isEmpty()) {
                 System.out.println("Please fill in all fields.");
                 return;
             }
@@ -234,9 +234,9 @@ public class UI_controller implements Initializable {
             Integer.parseInt(BurstTime_textField.getText());
             if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                     SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
-                Integer.parseInt(priority_textField.getText());
+                Integer.parseInt(priorityQuantum_textField.getText());
             } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-                Integer.parseInt(quantumTime_textField.getText());
+                Integer.parseInt(priorityQuantum_textField.getText());
             }
         }
         catch (NumberFormatException e) {
@@ -250,12 +250,12 @@ public class UI_controller implements Initializable {
         }
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
-            if (Integer.parseInt(priority_textField.getText()) < 0) {
+            if (Integer.parseInt(priorityQuantum_textField.getText()) < 0) {
                 System.out.println("Please enter non-negative values.");
                 return;
             }
         } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-            if (Integer.parseInt(quantumTime_textField.getText()) <= 0) {
+            if (Integer.parseInt(priorityQuantum_textField.getText()) <= 0) {
                 System.out.println("Please enter positive values for quantum time.");
                 return;
             }
@@ -270,7 +270,7 @@ public class UI_controller implements Initializable {
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
 
-            priority = Integer.parseInt(priority_textField.getText());
+            priority = Integer.parseInt(priorityQuantum_textField.getText());
             Process p = new Process(processName, arrivalTime, burstTime, priority);
             currentTableData.add(p);
 
@@ -282,7 +282,7 @@ public class UI_controller implements Initializable {
         ProcessName_textField.clear();
         ArrivalTime_textField.clear();
         BurstTime_textField.clear();
-        priority_textField.clear();
+        priorityQuantum_textField.clear();
         quantumTime_textField.clear();
     }
 
@@ -298,8 +298,10 @@ public class UI_controller implements Initializable {
                 ProccessHandler();
             }
         });
-        if (!liveSimulation_btn.isSelected())
+        if (!liveSimulation_btn.isSelected()){
             simulator.runStatic();
+            getResults(chart);
+        }
         else
             new Thread(task).start();
 
@@ -310,6 +312,7 @@ public class UI_controller implements Initializable {
         @Override
         protected Void call() throws Exception {
             simulator.runLive();
+            getResults(chart);
             return null;
         }
     };
@@ -328,6 +331,12 @@ public class UI_controller implements Initializable {
                 shownewproccess(tasksSize);
             });
         }
+    }
+
+    private void getResults(GanttChart gaunt){
+        Results results = new Results(gaunt);
+        Average_Waiting_Time_textField.setText(Double.toString(results.getAverageWaitingTime()));
+        Average_Turnaround_Time_textField.setText(Double.toString(results.getAverageTurnaroundTime()));
     }
 
     private void shownewproccess(int i) {
@@ -367,5 +376,10 @@ public class UI_controller implements Initializable {
 
     }
 
+    public void reset(MouseEvent mouseEvent) {
+        table.getItems().clear();
+        rectanglesBox.getChildren().clear();
+        timelineBox.getChildren().clear();
+    }
 }
 

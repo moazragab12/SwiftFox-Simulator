@@ -14,13 +14,7 @@ public final class Process {
     private int remainingTime ;
     public enum ProcessState {NEW, READY, RUNNING, TERMINATED}
     private ProcessState state;
-
-    // Use StringProperty or IntegerProperty for table bindings
-    private final SimpleStringProperty nameProperty = new SimpleStringProperty();
-    private final SimpleIntegerProperty arrivalTimeProperty = new SimpleIntegerProperty();
-    private final SimpleIntegerProperty burstTimeProperty = new SimpleIntegerProperty();
     private final SimpleIntegerProperty remainingTimeProperty = new SimpleIntegerProperty();
-    private final SimpleIntegerProperty priorityProperty = new SimpleIntegerProperty();
 
     public Process(String name, int arrivalTime, int burstTime, int priority) {
         this.pid = ++counter;
@@ -31,23 +25,11 @@ public final class Process {
         this.remainingTime = burstTime;
         this.state = ProcessState.NEW;
 
-        // Set property values
-        this.nameProperty.set(name);
-        this.arrivalTimeProperty.set(arrivalTime);
-        this.burstTimeProperty.set(burstTime);
         this.remainingTimeProperty.set(burstTime);
-        this.priorityProperty.set(priority);
     }
 
     public Process(String name, int arrivalTime, int burstTime) {
         this(name,arrivalTime,burstTime,0);
-
-        // Set property values
-        this.nameProperty.set(name);
-        this.arrivalTimeProperty.set(arrivalTime);
-        this.burstTimeProperty.set(burstTime);
-        this.remainingTimeProperty.set(burstTime);
-        this.priorityProperty.set(0);
     }
 
 
@@ -82,25 +64,8 @@ public final class Process {
     public void setRunning() {state = ProcessState.RUNNING;}
     public void setReady() {state = ProcessState.READY;}
 
-    // Getters for properties
-    public SimpleStringProperty nameProperty() {
-        return nameProperty;
-    }
-
-    public SimpleIntegerProperty arrivalTimeProperty() {
-        return arrivalTimeProperty;
-    }
-
-    public SimpleIntegerProperty burstTimeProperty() {
-        return burstTimeProperty;
-    }
-
     public SimpleIntegerProperty remainingTimeProperty() {
         return remainingTimeProperty;
-    }
-
-    public SimpleIntegerProperty priorityProperty() {
-        return priorityProperty;
     }
 
 }
