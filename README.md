@@ -74,4 +74,4 @@ cd CPU-Scheduler
 ```bash
 mvn clean javafx:run
 ```
-Note: Ensure your `pom.xml` is configured to use the JavaFX Maven Plugin and includes the necessary JavaFX modules (`javafx.controls`, `javafx.fxml`, etc.)..
+Note: Ensure your `pom.xml` is configured to use the JavaFX Maven Plugin and includes the necessary JavaFX modules (`javafx.controls`, `javafx.fxml`, etc.).
