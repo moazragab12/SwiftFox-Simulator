@@ -9,10 +9,9 @@ public class RR extends Scheduler
 
     public RR(int timeQuantum)
     {
-        this.readyQueue = new LinkedList<>();
+        super(new LinkedList<>());
         this.timeQuantum = timeQuantum;
     }
-
 
     @Override
     public Process decideNextProcess()

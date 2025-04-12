@@ -7,24 +7,19 @@ public class SJF extends Scheduler
 {
     boolean preemptive;
 
-    public SJF(boolean preemptive)
-    {
+    public SJF(boolean preemptive) {
+        super(new PriorityQueue<>(buildComparator(preemptive))); // like Priority constructor
         this.preemptive = preemptive;
-        this.readyQueue = buildReadyQueue();
     }
 
-    private PriorityQueue<Process> buildReadyQueue()
-    {
+    private static Comparator<Process> buildComparator(boolean preemptive) {
         Comparator<Process> comparator = preemptive
                 ? Comparator.comparingInt(Process::getRemainingTime)
                 : Comparator.comparingInt(Process::getBurstTime);
 
-        comparator = comparator
+        return comparator
                 .thenComparingInt(Process::getArrivalTime)
                 .thenComparingInt(Process::getPid);
-
-        return new PriorityQueue<>(comparator);
-
     }
 
     @Override

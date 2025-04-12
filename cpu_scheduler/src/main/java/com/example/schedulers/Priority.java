@@ -9,13 +9,16 @@ public class Priority extends Scheduler
 
     public Priority(boolean preemptive)
     {
+        super(new PriorityQueue<>(buildComparator()));
         this.preemptive = preemptive;
-        this.readyQueue = new PriorityQueue<>(Comparator
-                .comparingInt(Process::getPriority)
-                .thenComparingInt(Process::getArrivalTime)
-                .thenComparingInt(Process::getPid));
     }
 
+    private static Comparator<Process> buildComparator() {
+        return Comparator
+                .comparingInt(Process::getPriority)
+                .thenComparingInt(Process::getArrivalTime)
+                .thenComparingInt(Process::getPid);
+    }
 
     @Override
     public Process decideNextProcess()
