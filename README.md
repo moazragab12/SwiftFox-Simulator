@@ -52,7 +52,17 @@
 - JavaFX SDK (if not bundled with JDK)
 - Maven (used for building and running the project)
 
-### Running the Application (with Maven)
+### Running the Application
+
+### Option 1: Using the Executable JAR
+
+#### 1. Download the compiled .jar file from the dist/ directory.
+
+#### 2. Run the application using:
+   ```bush
+   java -jar cpu-scheduler-simulator.jar
+   ```
+### Option 2: From Source (Maven)
 
 #### 1. Clone the repository
 ```bash
@@ -60,8 +70,8 @@ git clone https://github.com/MoustafaHashem/CPU-Scheduler.git
 cd CPU-Scheduler
 ```
 
-#### 2. Run the application using Maven:
+#### 2. Build and run using Maven:
 ```bash
 mvn clean javafx:run
 ```
-Note: Make sure your `pom.xml` is correctly configured with the JavaFX Maven plugin and includes the required JavaFX modules such as javafx.controls and javafx.fxml.
+Note: Ensure your `pom.xml` is configured to use the JavaFX Maven Plugin and includes the necessary JavaFX modules (`javafx.controls`, `javafx.fxml`, etc.)..
