@@ -22,7 +22,7 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"),1280, 720);
         stage.setScene(scene);
         stage.setTitle("SwiftFox");
-        stage.getIcons().add(new Image(getClass().getResource("images/fox_icon.jpeg").toExternalForm()));
+        stage.getIcons().add(new Image(getClass().getResource("images/fox_icon.png").toExternalForm()));
         stage.centerOnScreen();
         stage.setResizable(false);
         stage.show();

@@ -34,6 +34,7 @@ private Button launchBtn;
         Scene scene = new Scene(fxmlLoader.load());
         Stage mainStage = (Stage) logoImage.getScene().getWindow();
         mainStage.setScene(scene);
+        mainStage.centerOnScreen();
         mainStage.setFullScreen(true);
     }
     

@@ -22,8 +22,11 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -43,6 +46,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 //import static com.example.schedulers.Main.chart;
 
@@ -165,17 +169,6 @@ public class UI_controller implements Initializable {
     Simulator simulator;
     int rr;
     boolean isRunning = false;
-
-    @FXML
-    void goBack(ActionEvent event) {
-        try {
-            // Use App.setRoot() to switch back to the primary window
-            App.setRoot("primary"); // The name of your primary window FXML
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -466,8 +459,12 @@ public class UI_controller implements Initializable {
     }
 
     @FXML
-    void goBack(MouseEvent event) {
-
+    void goBack(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+        Stage mainStage = (Stage) goBack_btn.getScene().getWindow();
+        mainStage.centerOnScreen();
+        mainStage.setScene(scene);
     }
 
     public void reset(MouseEvent mouseEvent) {
@@ -477,7 +474,7 @@ public class UI_controller implements Initializable {
         Average_Waiting_Time_textField.clear();
         Average_Turnaround_Time_textField.clear();
         isRunning = false;
-      priorityQuantum_textField.setEditable(true);  
+        priorityQuantum_textField.setEditable(true);  
         }
 }
 
