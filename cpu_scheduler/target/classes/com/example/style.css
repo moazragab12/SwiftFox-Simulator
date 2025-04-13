@@ -1,4 +1,7 @@
-.button {
+ 
+ /* Blue gradient button style */
+
+/* .button {
  -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
      -fx-text-fill: white;
      -fx-font-size: 15px;
@@ -16,6 +19,29 @@
 
 .button:pressed {
     -fx-background-color: #3cb371;
+} */
+
+
+ /* Orange gradient button style */
+
+ .button {
+    -fx-background-color: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient from orange to light orange */
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to right, #ff9a8b, #ff6a88); /* Lighter orange gradient on hover */
+}
+
+.button:pressed {
+    -fx-background-color: #ff5722; /* Darker orange for pressed state */
 }
 
 .pane {
@@ -47,7 +73,7 @@
 .table-view .filler {
     -fx-size: 40px;
     -fx-background-color: transparent;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
 }
 
 .table-view .label {
@@ -60,7 +86,7 @@
 .table-cell {
     -fx-padding: 6 10;
     -fx-border-color: transparent;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
     -fx-font-size: 13px;
     -fx-text-fill: #25265e;
 }
@@ -128,7 +154,7 @@
 .check-box:selected .mark {
     -fx-background-color: white;
 
-}}
+}
 
 /* On hover */
 .check-box:hover .box {

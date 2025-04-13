@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="1102.0" prefWidth="1323.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.UI_controller">
+<StackPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.UI_controller">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1003.0" prefWidth="1352.0">
         <columnConstraints>
@@ -21,14 +36,14 @@
           <RowConstraints maxHeight="255.0" minHeight="10.0" prefHeight="232.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="1288.0" style="-fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);" GridPane.columnSpan="2">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="1288.0" style="-fx-padding: 20; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);" GridPane.columnSpan="2">
                <children>
                   <Label fx:id="ghantt_label" prefHeight="30.0" prefWidth="162.0" text="Gantt Chart" textFill="#25265e">
                      <font>
                         <Font name="Century Gothic Bold" size="23.0" />
                      </font>
                   </Label>
-                  <HBox fx:id="ghantt_HBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.0" prefWidth="1255.0" styleClass="pane" stylesheets="@style.css" translateY="5.0" />
+                  <ScrollPane fx:id="ghantt_VBox" prefHeight="142.0" prefWidth="1248.0" />
                </children>
                <effect>
                   <Shadow height="0.0" radius="0.0" width="0.0" />
@@ -37,7 +52,7 @@
                   <Insets />
                </GridPane.margin>
             </VBox>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="747.0" prefWidth="830.0" style="-fx-padding: 30; -fx-background-color: white; -fx-spacing: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 4);" translateX="-15.0" translateY="-25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="717.0" prefWidth="830.0" style="-fx-padding: 30; -fx-background-color: white; -fx-spacing: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 4);" translateX="-15.0" translateY="-25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
                <children>
                   <HBox minWidth="-Infinity" prefHeight="83.0" prefWidth="738.0" style="-fx-spacing: 30; -fx-border-radius: 10; -fx-padding: 20; -fx-border-color: #e0e0e0;">
                      <children>
@@ -50,12 +65,12 @@
                            </opaqueInsets>
                         </Label>
                         <CheckBox fx:id="liveSimulation_btn" mnemonicParsing="false" prefHeight="46.0" prefWidth="177.0" stylesheets="@style.css" text="Live Simulation" />
-                        <ImageView fx:id="reset" fitHeight="43.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="reset" fitHeight="43.0" fitWidth="55.0" onMouseClicked="#reset" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/reset.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="start_btn1" alignment="CENTER" mnemonicParsing="false" prefHeight="41.0" prefWidth="173.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
+                        <Button fx:id="start_btn1" alignment="CENTER" mnemonicParsing="false" onAction="#startSimulation" prefHeight="41.0" prefWidth="173.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
                            <font>
                               <Font name="Century Gothic Bold" size="16.0" />
                            </font>
@@ -122,7 +137,7 @@
                               <Font name="Century Gothic Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="Average_Turnaround_Time_textField" prefHeight="28.0" prefWidth="57.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
+                        <TextField fx:id="Average_Turnaround_Time_textField" editable="false" prefHeight="28.0" prefWidth="57.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -132,13 +147,13 @@
                               <Font name="Century Gothic Bold" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="Average_Waiting_Time_textField" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
+                        <TextField fx:id="Average_Waiting_Time_textField" editable="false" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
                      </children>
                   </FlowPane>
-                  <Button fx:id="goBack_btn" mnemonicParsing="false" onMouseClicked="#goBack" text="Go back" translateX="-20.0" translateY="30.0" />
+                  <Button fx:id="goBack_btn" mnemonicParsing="false" onAction="#goBack" onMouseClicked="#goBack" text="Go back" translateX="-20.0" translateY="30.0" />
                </children>
             </VBox>
-            <VBox fx:id="addProcess_VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="412.0" spacing="10.0" style="-fx-spacing: 10;" styleClass="pane" stylesheets="@style.css" translateX="20.0" GridPane.rowIndex="1">
+            <VBox fx:id="addProcess_VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="412.0" spacing="10.0" style="-fx-spacing: 10;" styleClass="pane" stylesheets="@style.css" translateX="20.0" GridPane.rowIndex="1">
                <children>
                   <Label fx:id="SchedulingMethod_label" text="Scheduling Method" textFill="#25265e">
                      <font>
@@ -166,12 +181,12 @@
                   <TextField fx:id="BurstTime_textField" styleClass="VBoxFields" stylesheets="@style.css" />
                   <VBox prefHeight="65.0" prefWidth="370.0" style="-fx-spacing: 5;">
                      <children>
-                        <Label fx:id="priority_label" text="Priority" textFill="#25265e">
+                        <Label fx:id="priorityQuantum_label" text="Priority" textFill="#25265e">
                            <font>
                               <Font name="Century Gothic" size="20.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="priority_textField" styleClass="VBoxFields" stylesheets="@style.css" />
+                        <TextField fx:id="priorityQuantum_textField" styleClass="VBoxFields" stylesheets="@style.css" />
                      </children>
                   </VBox>
                   <VBox prefHeight="91.0" prefWidth="370.0" style="-fx-spacing: 5;">
@@ -188,7 +203,7 @@
                      <children>
                         <AnchorPane prefHeight="48.0" prefWidth="251.0">
                            <children>
-                              <Button fx:id="addProcess_btn" layoutX="-1.0" layoutY="5.0" mnemonicParsing="false" onMouseClicked="#addProcess" prefHeight="43.0" prefWidth="252.0" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
+                              <Button fx:id="addProcess_btn" layoutX="-1.0" layoutY="5.0" mnemonicParsing="false" onAction="#addProcess" onMouseClicked="#addProcess" prefHeight="43.0" prefWidth="252.0" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
                                  <font>
                                     <Font name="Century Gothic Bold" size="34.0" />
                                  </font>

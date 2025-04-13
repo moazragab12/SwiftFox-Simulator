@@ -1,5 +1,7 @@
 package com.example.schedulers;
 
+import javafx.scene.control.TableView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +22,7 @@ public final class Simulator
         this.scheduler = Objects.requireNonNull(scheduler);
         this.ganttChart = Objects.requireNonNull(ganttChart);
         this.processes = new ArrayList<>(Objects.requireNonNull(processes));
+
     }
 
     public synchronized void addProcess(Process process)
@@ -55,7 +58,7 @@ public final class Simulator
         catch (InterruptedException e) {throw new RuntimeException(e);}
     }
 
-    private boolean allProcessesTerminated()
+    public boolean allProcessesTerminated()
     {
         return processes.stream()
                 .allMatch(p -> p.getState() == Process.ProcessState.TERMINATED);
@@ -72,6 +75,9 @@ public final class Simulator
         {
             ganttChart.addEntry(next, timer, timer + 1);
             next.execute(1);
+
+            next.remainingTimeProperty().set(next.getRemainingTime());
+
             scheduler.onProcessCompleted(next);
         }
         else

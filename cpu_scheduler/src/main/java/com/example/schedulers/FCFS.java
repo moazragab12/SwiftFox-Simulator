@@ -4,10 +4,7 @@ import java.util.LinkedList;
 
 public class FCFS extends Scheduler
 {
-    public FCFS()
-    {
-        this.readyQueue = new LinkedList<>();
-    }
+    public FCFS() { super(new LinkedList<>());}
 
     @Override
     public Process decideNextProcess()

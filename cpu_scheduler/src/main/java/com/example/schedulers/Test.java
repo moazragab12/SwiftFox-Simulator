@@ -3,9 +3,9 @@ package com.example.schedulers;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main
+public class Test
 {
-    public static void main(String[] args)
+    public static void testSimulator()
     {
         // Create processes
         List<Process> processes = new ArrayList<>();

@@ -1,10 +1,14 @@
 package com.example;
 
 import java.io.IOException;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class PrimaryController {
 //
@@ -22,15 +26,16 @@ private Button launchBtn;
     private ImageView logoImage;
 
     @FXML
-    public void initialize() {
-        logoImage.setImage(new Image(getClass().getResource("@images/logo.png").toExternalForm())); // Add logo to resources/images
 
-        launchBtn.setOnAction(e -> {
-            try {
-                App.setRoot("updated-UI"); // your main FXML
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
+     
+   
+    void press(ActionEvent event)throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("updated_UI.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage mainStage = (Stage) logoImage.getScene().getWindow();
+        mainStage.setScene(scene);
+        mainStage.centerOnScreen();
+        mainStage.setFullScreen(true);
     }
+    
 }
