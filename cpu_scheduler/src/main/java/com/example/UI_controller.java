@@ -2,6 +2,8 @@ package com.example;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.example.schedulers.FCFS;
@@ -27,15 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -69,7 +63,7 @@ public class UI_controller implements Initializable {
     private Label SchedulingMethod_label;
 
     @FXML
-    private VBox ghantt_VBox;
+    private ScrollPane ghantt_VBox;
 
     private ObservableList<Process> currentTableData = FXCollections.observableArrayList();
 
@@ -167,14 +161,18 @@ public class UI_controller implements Initializable {
     Scheduler scheduler;
     GanttChart chart;
     Simulator simulator;
+    private VBox Chartcontainer= new VBox();
+    private  int idx;
+    HashMap<Integer, Color> ProcessColors ;
     int rr;
     boolean isRunning = false;
-
+    private List <Color>lightColors= List.of(Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON, Color.LIGHTCYAN, Color.LIGHTGOLDENRODYELLOW);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setItems(currentTableData);
         timelineBox.setAlignment(Pos.BOTTOM_LEFT);
-        ghantt_VBox.getChildren().addAll(rectanglesBox, timelineBox);
+        ghantt_VBox.setContent(Chartcontainer);
+        Chartcontainer.getChildren().addAll(rectanglesBox, timelineBox);
         processName_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         remaining_col.setCellValueFactory(new PropertyValueFactory<>("remainingTime"));
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
@@ -190,6 +188,7 @@ public class UI_controller implements Initializable {
         SchedulingMethod_choiceList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             handleSchedulingChoice(newVal);
         });
+        ProcessColors = new HashMap<>();
     }
 
     private void handleSchedulingChoice(String newVal) {
@@ -435,12 +434,21 @@ public class UI_controller implements Initializable {
 
         // Create rectangle with text
         Text centerText = new Text();
-        centerText.setText(taskname.length() > 6 ? taskname.substring(0, 6) + "..." : taskname);
+        centerText.setText(taskname.length() > 5 ? taskname.substring(0, 5) + "..." : taskname);
         centerText.setFill(Color.BLACK);
         centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         centerText.setWrappingWidth(50 - 10);
         Rectangle rectangle = new Rectangle(50, 70);
-        rectangle.setFill(Color.DARKCYAN);
+        if (!ProcessColors.containsKey(chart.getEntries().get(i - 1).getProcess().getPid()))
+        {
+            rectangle.setFill(lightColors.get(idx % lightColors.size()));
+            ProcessColors.put(chart.getEntries().get(i - 1).getProcess().getPid(), lightColors.get(idx % lightColors.size()));
+            idx++;
+        }
+        else
+        {
+            rectangle.setFill(ProcessColors.get(chart.getEntries().get(i - 1).getProcess().getPid()));
+        }
         rectangle.setStroke(Color.BLACK);
         StackPane stackPane = new StackPane(rectangle, centerText);
         rectanglesBox.getChildren().add(stackPane);
@@ -452,7 +460,7 @@ public class UI_controller implements Initializable {
         numberText.setStyle("-fx-font-size: 12px;");
 
         StackPane numberContainer = new StackPane(numberText);
-        numberContainer.setMinWidth(50);
+        numberContainer.setMinWidth(50+1);
         numberContainer.setAlignment(Pos.BOTTOM_RIGHT);
 
         timelineBox.getChildren().add(numberContainer);
