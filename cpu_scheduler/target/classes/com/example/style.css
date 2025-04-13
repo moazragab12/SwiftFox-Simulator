@@ -24,8 +24,9 @@
 
  /* Orange gradient button style */
 
+/*
  .button {
-    -fx-background-color: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient from orange to light orange */
+    -fx-background-color: linear-gradient(to right, #ff7e5f, #feb47b);  //Gradient from orange to light orange
     -fx-text-fill: white;
     -fx-font-size: 15px;
     -fx-font-weight: 800;
@@ -35,15 +36,17 @@
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
 }
+*/
 
+/*
 .button:hover {
-    -fx-background-color: linear-gradient(to right, #ff9a8b, #ff6a88); /* Lighter orange gradient on hover */
+    -fx-background-color: linear-gradient(to right, #ff9a8b, #ff6a88); // Lighter orange gradient on hover
 }
 
 .button:pressed {
-    -fx-background-color: #ff5722; /* Darker orange for pressed state */
+    -fx-background-color: #ff5722; // Darker orange for pressed state
 }
-
+*/
 .pane {
     -fx-background-color: #ffffff;
     -fx-background-radius: 10px;
@@ -196,7 +199,31 @@
     -fx-text-fill: #FF7F32;
     -fx-effect: dropshadow(gaussian, #FF4500, 15, 0.6, 0, 0);
     -fx-text-alignment: center;
-    -fx-padding: 20 0 20 0;
+    /*-fx-padding: 20 0 20 0;*/
+
+
+/*
+      -fx-padding: 10 20 10 20;
+
+      -fx-background-color: transparent;
+      -fx-border-radius: 30;
+      -fx-background-radius: 30;
+      -fx-border-width: 3;
+
+      // Gradient border
+      -fx-border-color: linear-gradient(to right, #42a5f5, #ffa726, #ef5350); // blue → orange → red //
+*/
+      /* Soft glow */
+      /*-fx-effect: dropshadow(gaussian, rgba(255, 87, 34, 0.4), 10, 0.5, 0, 2);*/
+}
+.glow-wrapper {
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-border-width: 3.8;
+    -fx-border-color: linear-gradient(to right, #42a5f5, #ffa726, #ef5350);
+    -fx-effect: dropshadow(gaussian, rgba(255, 87, 34, 0.4), 15, 0.6, 0, 2);
 }
 
 /* Hover effect for the main title */
@@ -211,4 +238,85 @@
     -fx-effect: innershadow(gaussian, #FF6347, 25, 1.2, 0, 0);
 }
 
+#tagline {
 
+-fx-font-size: 22px;
+    -fx-font-family: "Courier New","Trebuchet MS", "Segoe UI", "Verdana", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(
+        to right,
+        #FFA726,  /* Light orange */
+        #FF6347,  /* Tomato */
+        #42A5F5   /* Blue */
+    );
+
+    -fx-text-alignment: center;
+    -fx-padding: 10 20 10 20;
+    -fx-letter-spacing: 1px;
+    -fx-opacity: 1;
+
+    /* White-blue soft glow */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 12, 0.7, 0, 2);
+
+
+
+/*
+    -fx-font-size: 24px;
+    -fx-font-family: "Montserrat", "Segoe UI", "Verdana", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-padding: 10 20 10 20;
+    -fx-opacity: 1;
+    -fx-letter-spacing: 1px;
+ */
+
+    /*-fx-text-fill: linear-gradient(
+        to right,
+        white 0%,
+        white 50%,
+        #2196f3 70%,
+        #00bcd4 85%,
+        #64b5f6 100%
+    );
+*/
+
+
+    /* Strong white glow
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.9), 12, 0.8, 0, 2);  */
+/*
+ // Bright cyan glow
+    -fx-effect: dropshadow(gaussian, #00e5ff, 14, 0.8, 0, 2);
+*/
+/* //Soft bright cyan glow
+        -fx-effect: dropshadow(gaussian, #80ffff, 10, 0.7, 0, 1.5);
+*/
+}
+
+
+
+#tagline::hover{
+  -fx-text-fill: #FF7043; /* darker orange on hover */
+  -fx-cursor: hand;
+}
+
+.start_btn1 , .addProcess_btn , .goBack_btn, .launchBtn {
+   -fx-background-color: linear-gradient(to right, #ff5400, #ff8800);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-effect: dropshadow(gaussian, #ff5400, 15, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.start_btn1:hover, .addProcess_btn:hover ,.goBack_btn::hover, .launchBtn::hover {
+    -fx-background-color: linear-gradient(to right, #ff8800, #ff5400);
+    -fx-cursor: hand;
+}
+
+#circleRing {
+    -fx-stroke: linear-gradient(from 0% 0% to 100% 100%, #FFA726, #FF7043,#35BED3,#106EA7);
+    -fx-effect: dropshadow(gaussian, #ff5400,10 , 0.3, 0, 0);
+}

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -23,7 +30,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.UI_controller">
+<StackPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.UI_controller">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1003.0" prefWidth="1352.0">
         <columnConstraints>
@@ -43,7 +50,7 @@
                         <Font name="Century Gothic Bold" size="23.0" />
                      </font>
                   </Label>
-                  <ScrollPane fx:id="ghantt_VBox" prefHeight="142.0" prefWidth="1248.0" />
+                  <ScrollPane fx:id="ghantt_VBox" prefHeight="142.0" prefWidth="1248.0" styleClass="pane" stylesheets="@style.css" />
                </children>
                <effect>
                   <Shadow height="0.0" radius="0.0" width="0.0" />
@@ -70,7 +77,7 @@
                               <Image url="@images/reset.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="start_btn1" alignment="CENTER" mnemonicParsing="false" onAction="#startSimulation" prefHeight="41.0" prefWidth="173.0" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
+                        <Button fx:id="start_btn1" alignment="CENTER" mnemonicParsing="false" onAction="#startSimulation" prefHeight="41.0" prefWidth="173.0" styleClass="start_btn1" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
                            <font>
                               <Font name="Century Gothic Bold" size="16.0" />
                            </font>
@@ -150,7 +157,7 @@
                         <TextField fx:id="Average_Waiting_Time_textField" editable="false" prefHeight="32.0" prefWidth="27.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
                      </children>
                   </FlowPane>
-                  <Button fx:id="goBack_btn" mnemonicParsing="false" onAction="#goBack" onMouseClicked="#goBack" text="Go back" translateX="-20.0" translateY="30.0" />
+                  <Button fx:id="goBack_btn" mnemonicParsing="false" onAction="#goBack" onMouseClicked="#goBack" styleClass="goBack_btn" text="Go back" translateX="-20.0" translateY="30.0" />
                </children>
             </VBox>
             <VBox fx:id="addProcess_VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="412.0" spacing="10.0" style="-fx-spacing: 10;" styleClass="pane" stylesheets="@style.css" translateX="20.0" GridPane.rowIndex="1">
@@ -203,7 +210,7 @@
                      <children>
                         <AnchorPane prefHeight="48.0" prefWidth="251.0">
                            <children>
-                              <Button fx:id="addProcess_btn" layoutX="-1.0" layoutY="5.0" mnemonicParsing="false" onAction="#addProcess" onMouseClicked="#addProcess" prefHeight="43.0" prefWidth="252.0" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
+                              <Button fx:id="addProcess_btn" layoutX="-1.0" layoutY="5.0" mnemonicParsing="false" onAction="#addProcess" onMouseClicked="#addProcess" prefHeight="43.0" prefWidth="252.0" styleClass="addProcess_btn" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
                                  <font>
                                     <Font name="Century Gothic Bold" size="34.0" />
                                  </font>

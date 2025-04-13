@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -19,23 +20,23 @@ public class PrimaryController {
 
 
 
-@FXML
-private Button launchBtn;
+    @FXML
+    private Button launchBtn;
 
     @FXML
     private ImageView logoImage;
 
     @FXML
-
-     
+    private Label tagline;
    
+    @FXML
     void press(ActionEvent event)throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("updated_UI.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage mainStage = (Stage) logoImage.getScene().getWindow();
         mainStage.setScene(scene);
-        mainStage.centerOnScreen();
-        mainStage.setFullScreen(true);
+        /*mainStage.centerOnScreen();*/
+       /* mainStage.setFullScreen(true); */
     }
     
 }
