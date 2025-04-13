@@ -255,9 +255,9 @@
     -fx-letter-spacing: 1px;
     -fx-opacity: 1;
 
-    /* White-blue soft glow */
+    /* // White-blue soft glow
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 12, 0.7, 0, 2);
-
+*/
 
 
 /*
