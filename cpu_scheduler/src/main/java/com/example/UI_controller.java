@@ -178,10 +178,6 @@ public class UI_controller implements Initializable {
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
         burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
         priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
-        priorityQuantum_textField.setVisible(false);
-        priorityQuantum_label.setVisible(false);
-        quantumTime_label.setVisible(false);
-        quantumTime_textField.setVisible(false);
         priority_col.setVisible(false);
         SchedulingMethod_choiceList.getItems().addAll("FCFS", "SJF (Preemptive)", "SJF (Non-Preemptive)", "Priority (Preemptive)", "Priority (Non-Preemptive)", "Round Robin");
         SchedulingMethod_choiceList.setValue("FCFS");
@@ -206,8 +202,6 @@ public class UI_controller implements Initializable {
                 priorityQuantum_textField.setVisible(true);
                 priorityQuantum_label.setVisible(true);
                 priority_col.setVisible(false);
-                //quantumTime_textField.setVisible(true);
-                //quantumTime_label.setVisible(true);
                 break;
 
             default:
@@ -474,7 +468,7 @@ public class UI_controller implements Initializable {
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 740);
         Stage mainStage = (Stage) goBack_btn.getScene().getWindow();
         mainStage.centerOnScreen();
         mainStage.setScene(scene);

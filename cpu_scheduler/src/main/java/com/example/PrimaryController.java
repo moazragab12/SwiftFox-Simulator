@@ -32,11 +32,12 @@ public class PrimaryController {
     @FXML
     void press(ActionEvent event)throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("updated_UI.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(),1200,740);
         Stage mainStage = (Stage) logoImage.getScene().getWindow();
         mainStage.setScene(scene);
-        /*mainStage.centerOnScreen();*/
-       /* mainStage.setFullScreen(true); */
+        mainStage.centerOnScreen();
+        mainStage.setFullScreen(false);
+
     }
     
 }

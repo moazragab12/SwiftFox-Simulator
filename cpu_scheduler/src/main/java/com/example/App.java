@@ -20,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"),1280, 800);
+        scene = new Scene(loadFXML("primary"),1200, 740);
         stage.setScene(scene);
         stage.setTitle("SwiftFox");
         stage.getIcons().add(new Image(getClass().getResource("images/fox_icon.png").toExternalForm()));

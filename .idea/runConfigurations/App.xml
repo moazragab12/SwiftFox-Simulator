@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="App" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="23" />
+    <option name="MAIN_CLASS_NAME" value="com.example.App" />
+    <module name="CPU-Scheduler" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
