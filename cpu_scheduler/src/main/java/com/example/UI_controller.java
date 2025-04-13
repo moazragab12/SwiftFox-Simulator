@@ -166,7 +166,7 @@ public class UI_controller implements Initializable {
     HashMap<Integer, Color> ProcessColors ;
     int rr;
     boolean isRunning = false;
-    private List <Color>lightColors= List.of(Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON, Color.LIGHTCYAN, Color.LIGHTGOLDENRODYELLOW);
+    private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setItems(currentTableData);
@@ -426,12 +426,16 @@ public class UI_controller implements Initializable {
     }
 
     private void shownewproccess(int i) {
-        String taskname = "IDLE ";
+        String taskname = "IDLE";
         //  System.out.println("Process ID: " + i);
         if (chart.getEntries().get(i - 1).getProcess() != null) {
             taskname = chart.getEntries().get(i - 1).getProcess().getName();
         }
+            if(taskname.equals("IDLE"))
+            {
 
+                System.out.println("IDLE");
+            }
         // Create rectangle with text
         Text centerText = new Text();
         centerText.setText(taskname.length() > 5 ? taskname.substring(0, 5) + "..." : taskname);
@@ -439,16 +443,17 @@ public class UI_controller implements Initializable {
         centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         centerText.setWrappingWidth(50 - 10);
         Rectangle rectangle = new Rectangle(50, 70);
-        if (!ProcessColors.containsKey(chart.getEntries().get(i - 1).getProcess().getPid()))
+        if(taskname.equals("IDLE"))
+            rectangle.setFill(Color.LIGHTGRAY);
+        else if ( !ProcessColors.containsKey(chart.getEntries().get(i - 1).getProcess().getPid()))
         {
             rectangle.setFill(lightColors.get(idx % lightColors.size()));
             ProcessColors.put(chart.getEntries().get(i - 1).getProcess().getPid(), lightColors.get(idx % lightColors.size()));
             idx++;
         }
         else
-        {
             rectangle.setFill(ProcessColors.get(chart.getEntries().get(i - 1).getProcess().getPid()));
-        }
+
         rectangle.setStroke(Color.BLACK);
         StackPane stackPane = new StackPane(rectangle, centerText);
         rectanglesBox.getChildren().add(stackPane);
