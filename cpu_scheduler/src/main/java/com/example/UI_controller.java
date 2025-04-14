@@ -179,6 +179,8 @@ public class UI_controller implements Initializable {
         burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
         priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
         priority_col.setVisible(false);
+        priorityQuantum_textField.setVisible(false);
+        priorityQuantum_label.setVisible(false);
         SchedulingMethod_choiceList.getItems().addAll("FCFS", "SJF (Preemptive)", "SJF (Non-Preemptive)", "Priority (Preemptive)", "Priority (Non-Preemptive)", "Round Robin");
         SchedulingMethod_choiceList.setValue("FCFS");
         SchedulingMethod_choiceList.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
@@ -205,8 +207,8 @@ public class UI_controller implements Initializable {
                 break;
 
             default:
-                quantumTime_textField.setVisible(false);
-                quantumTime_label.setVisible(false);
+                //quantumTime_textField.setVisible(false);
+                //quantumTime_label.setVisible(false);
                 priorityQuantum_textField.setVisible(false);
                 priorityQuantum_label.setVisible(false);
                 priority_col.setVisible(false);
@@ -316,6 +318,7 @@ public class UI_controller implements Initializable {
     }
 
     public void startSimulation(ActionEvent actionEvent) {
+        SchedulingMethod_choiceList.setDisable(true);
         scheduler = getScheduler();
         chart = new GanttChart();
         simulator = new Simulator(currentTableData, scheduler, chart);
@@ -351,28 +354,25 @@ public class UI_controller implements Initializable {
             }
         };
 
-        if (!liveSimulation_btn.isSelected()){
+        if (!liveSimulation_btn.isSelected()) {
             simulator.runStatic();
             getResults(chart);
-            
-        }
-        else
+
+        } else
             new Thread(task).start();
-           if (simulator.allProcessesTerminated()) {
-    // Display an alert window
-    Platform.runLater(() -> {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Simulation Complete");
-        alert.setHeaderText(null);
-        alert.setContentText("All processes have terminated successfully.");
-        alert.showAndWait();
-    });
-    System.out.println("All processes have terminated.");
-}
-
-
+        if (simulator.allProcessesTerminated()) {
+            // Display an alert window
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Simulation Complete");
+                alert.setHeaderText(null);
+                alert.setContentText("All processes have terminated successfully.");
+                alert.showAndWait();
+                SchedulingMethod_choiceList.setDisable(false);
+            });
+            System.out.println("All processes have terminated.");
+        }
     }
-
 
     private void ProccessHandler() {
         int tasksSize = chart.getEntries().size();
@@ -481,7 +481,8 @@ public class UI_controller implements Initializable {
         Average_Waiting_Time_textField.clear();
         Average_Turnaround_Time_textField.clear();
         isRunning = false;
-        priorityQuantum_textField.setEditable(true);  
+        priorityQuantum_textField.setEditable(true);
+        SchedulingMethod_choiceList.setDisable(false);
         }
 }
 
