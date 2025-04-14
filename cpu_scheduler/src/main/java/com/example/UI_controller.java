@@ -166,6 +166,8 @@ public class UI_controller implements Initializable {
     HashMap<Integer, Color> ProcessColors ;
     int rr;
     boolean isRunning = false;
+    int rectangleWidth = 55;
+    int rectangleHeight = 20;
     private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -432,11 +434,11 @@ public class UI_controller implements Initializable {
             }
         // Create rectangle with text
         Text centerText = new Text();
-        centerText.setText(taskname.length() > 5 ? taskname.substring(0, 5) + "..." : taskname);
+        centerText.setText(taskname.length() > 4 ? taskname.substring(0, 4) + "..." : taskname);
         centerText.setFill(Color.BLACK);
-        centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        centerText.setWrappingWidth(50 - 10);
-        Rectangle rectangle = new Rectangle(50, 70);
+        centerText.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+        centerText.setWrappingWidth(rectangleWidth - 10);
+        Rectangle rectangle = new Rectangle(rectangleWidth, rectangleHeight);
         if(taskname.equals("IDLE"))
             rectangle.setFill(Color.LIGHTGRAY);
         else if ( !ProcessColors.containsKey(chart.getEntries().get(i - 1).getProcess().getPid()))
@@ -456,10 +458,10 @@ public class UI_controller implements Initializable {
 
         // Create number with alignment
         Text numberText = new Text(String.valueOf(i));
-        numberText.setStyle("-fx-font-size: 12px;");
+        numberText.setStyle("-fx-font-size: 9px;");
 
         StackPane numberContainer = new StackPane(numberText);
-        numberContainer.setMinWidth(50+1);
+        numberContainer.setMinWidth(rectangleWidth+1);
         numberContainer.setAlignment(Pos.BOTTOM_RIGHT);
 
         timelineBox.getChildren().add(numberContainer);

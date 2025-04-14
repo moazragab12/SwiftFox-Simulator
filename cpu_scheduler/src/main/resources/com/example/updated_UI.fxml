@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -21,19 +14,15 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="753.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.UI_controller">
+<StackPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="753.0" prefWidth="1139.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.UI_controller">
    <children>
-      <AnchorPane prefHeight="753.0" prefWidth="1155.0" style="-fx-padding: 15;">
+      <AnchorPane prefHeight="773.0" prefWidth="1157.0" style="-fx-padding: 15;">
          <children>
             <VBox layoutX="22.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="121.0" prefWidth="1104.0" style="-fx-padding: 10; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);">
                <children>
@@ -42,7 +31,7 @@
                         <Font name="Century Gothic Bold" size="20.0" />
                      </font>
                   </Label>
-                  <ScrollPane fx:id="ghantt_VBox" prefHeight="72.0" prefWidth="1082.0" styleClass="pane" stylesheets="@style.css">
+                  <ScrollPane fx:id="ghantt_VBox" prefHeight="105.0" prefWidth="1083.0" styleClass="pane" stylesheets="@style.css">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
