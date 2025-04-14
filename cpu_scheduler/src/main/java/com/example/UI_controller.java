@@ -219,6 +219,9 @@ public class UI_controller implements Initializable {
 
     @FXML
     public void addProcess(ActionEvent event) {
+        if(table.getItems().isEmpty()){
+            SchedulingMethod_choiceList.setDisable(true);
+        }
         int arrivalTime;
         if (isRunning) { 
             if(ArrivalTime_textField.getText().isEmpty()){
@@ -320,7 +323,6 @@ public class UI_controller implements Initializable {
     }
 
     public void startSimulation(ActionEvent actionEvent) {
-        SchedulingMethod_choiceList.setDisable(true);
         scheduler = getScheduler();
         chart = new GanttChart();
         simulator = new Simulator(currentTableData, scheduler, chart);
