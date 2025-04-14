@@ -368,8 +368,8 @@ public class UI_controller implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("All processes have terminated successfully.");
                 alert.showAndWait();
-                SchedulingMethod_choiceList.setDisable(false);
             });
+            //SchedulingMethod_choiceList.setDisable(false);
             System.out.println("All processes have terminated.");
         }
     }
