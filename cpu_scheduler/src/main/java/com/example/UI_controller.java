@@ -323,6 +323,7 @@ public class UI_controller implements Initializable {
     }
 
     public void startSimulation(ActionEvent actionEvent) {
+        liveSimulation_btn.setDisable(true);
         scheduler = getScheduler();
         chart = new GanttChart();
         simulator = new Simulator(currentTableData, scheduler, chart);
@@ -351,6 +352,8 @@ public class UI_controller implements Initializable {
                         alert.setHeaderText(null);
                         alert.setContentText("All processes have terminated successfully.");
                         alert.showAndWait();
+                        liveSimulation_btn.setDisable(false);
+                        SchedulingMethod_choiceList.setDisable(false);
                     });
                     System.out.println("All processes have terminated.");
                 }
@@ -372,10 +375,13 @@ public class UI_controller implements Initializable {
                 alert.setHeaderText(null);
                 alert.setContentText("All processes have terminated successfully.");
                 alert.showAndWait();
+                liveSimulation_btn.setDisable(false);
+                SchedulingMethod_choiceList.setDisable(false);
             });
             //SchedulingMethod_choiceList.setDisable(false);
             System.out.println("All processes have terminated.");
         }
+
     }
 
     private void ProccessHandler() {
@@ -486,7 +492,6 @@ public class UI_controller implements Initializable {
         Average_Turnaround_Time_textField.clear();
         isRunning = false;
         priorityQuantum_textField.setEditable(true);
-        SchedulingMethod_choiceList.setDisable(false);
         }
 }
 
