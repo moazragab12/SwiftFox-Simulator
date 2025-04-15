@@ -3,6 +3,7 @@ package com.example;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -179,8 +180,22 @@ public class UI_controller implements Initializable {
     int rr;
     boolean isRunning = false;
     int rectangleWidth = 55;
-    int rectangleHeight = 20;
-    private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);
+    int rectangleHeight = 20;  
+    
+    private List<Color> lightColors = Arrays.asList(
+        Color.web("#FF7F00"), // vivid orange (your image)
+        Color.web("#FF8C00"), // dark orange
+        Color.web("#FF7518"), // pumpkin
+        Color.web("#F28500"), // tangerine
+        Color.web("#E67300"), // strong warm orange
+        Color.web("#FF6F00"), // amber orange
+        Color.web("#D65A00"), // deep orange rust
+        Color.web("#CC5800"), // rich copper
+        Color.web("#B34700"), // burnt orange
+        Color.web("#993D00")  // sienna brown-orange
+    );
+    
+    // private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setItems(currentTableData);
@@ -195,8 +210,8 @@ public class UI_controller implements Initializable {
         //////
         waitingTime_col.setCellValueFactory(new PropertyValueFactory<>("waitingTime"));
         turnaroundTime_col.setCellValueFactory(new PropertyValueFactory<>("turnaroundTime"));
-        waitingTime_col.setVisible(false);
-        turnaroundTime_col.setVisible(false);
+        waitingTime_col.setVisible(true);
+        turnaroundTime_col.setVisible(true);
         //////////////
         priority_col.setVisible(false);
         priorityQuantum_textField.setVisible(false);
@@ -359,6 +374,7 @@ public class UI_controller implements Initializable {
     }
 
     public void startSimulation(ActionEvent actionEvent) {
+        if(!isRunning && !currentTableData.isEmpty()) {
         liveSimulation_btn.setDisable(true);
         scheduler = getScheduler();
         chart = new GanttChart();
@@ -383,6 +399,10 @@ public class UI_controller implements Initializable {
                 if (simulator.allProcessesTerminated()) {
                     // Display an alert window
                     Platform.runLater(() -> {
+                        waitingTime_col.setVisible(false);
+                        turnaroundTime_col.setVisible(false);
+                        waitingTime_col.setVisible(true);
+                        turnaroundTime_col.setVisible(true);
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Simulation Complete");
                         alert.setHeaderText(null);
@@ -409,6 +429,10 @@ public class UI_controller implements Initializable {
         if (simulator.allProcessesTerminated()) {
             // Display an alert window
             Platform.runLater(() -> {
+                waitingTime_col.setVisible(false);
+                turnaroundTime_col.setVisible(false);
+                waitingTime_col.setVisible(true);
+                turnaroundTime_col.setVisible(true);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Simulation Complete");
                 alert.setHeaderText(null);
@@ -421,7 +445,16 @@ public class UI_controller implements Initializable {
             System.out.println("All processes have terminated.");
             
         }
-
+        } else if (currentTableData.isEmpty()) {
+            System.out.println("Please add processes to the table before starting the simulation.");
+            error_label.setText("Please add processes to the table before starting the simulation.");
+            error_label.setVisible(true);
+        }
+        else {
+            System.out.println("Simulation is already running.");
+            error_label.setText("Simulation is already running.");
+            error_label.setVisible(true);
+        }
     }
 
     private void ProccessHandler() {
@@ -472,8 +505,8 @@ public class UI_controller implements Initializable {
         Average_Waiting_Time_textField.setText(String.format("%.2f",results.getAverageWaitingTime()));
         Average_Turnaround_Time_textField.setText(String.format("%.2f", results.getAverageTurnaroundTime()));
 
-        waitingTime_col.setVisible(true);
-        turnaroundTime_col.setVisible(true);
+        // waitingTime_col.setVisible(true);
+        // turnaroundTime_col.setVisible(true);
 
 
 
@@ -536,6 +569,7 @@ public class UI_controller implements Initializable {
     }
 
     public void reset(MouseEvent mouseEvent) {
+        error_label.setVisible(false);
         table.getItems().clear();
         rectanglesBox.getChildren().clear();
         timelineBox.getChildren().clear();
@@ -545,8 +579,8 @@ public class UI_controller implements Initializable {
         priorityQuantum_textField.setEditable(true);
         priorityQuantum_textField.clear();
         SchedulingMethod_choiceList.setDisable(false);
-        waitingTime_col.setVisible(false);
-        turnaroundTime_col.setVisible(false);
+        // waitingTime_col.setVisible(false);
+        // turnaroundTime_col.setVisible(false);
         }
 }
 
