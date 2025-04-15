@@ -84,6 +84,12 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
+.error-label {
+    -fx-text-fill: #ff0d00;
+    -fx-text-alignment: center;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
 
 /*  TABLE CELLS */
 .table-cell {

@@ -72,6 +72,25 @@ public final class Results
         {
             int turnaround = finish - process.getArrivalTime();
             int waiting = turnaround - process.getBurstTime();
+            process.setTurnaroundTime(turnaround);
+            process.setWaitingTime(waiting);
             processMetrics.add(new ProcessMetrics(process, turnaround, waiting));
         }
+
+        public Map<Process, Integer> getProcessWaitingTimes() {
+            return processMetrics.stream()
+                                 .collect(Collectors.toMap(
+                                     ProcessMetrics::getProcess, // Key: Process
+                                     ProcessMetrics::waitingTime // Value: Waiting time
+                                 ));
+        }
+
+        public Map<Process, Integer> getProcessTurnaroundTimes() {
+            return processMetrics.stream()
+                                 .collect(Collectors.toMap(
+                                     ProcessMetrics::getProcess, // Key: Process
+                                     ProcessMetrics::turnaroundTime // Value: Waiting time
+                                 ));
+        }
+        
     }

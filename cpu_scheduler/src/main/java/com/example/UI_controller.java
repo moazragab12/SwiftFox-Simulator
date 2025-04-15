@@ -2,7 +2,9 @@ package com.example;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,6 +13,7 @@ import com.example.schedulers.GanttChart;
 import com.example.schedulers.GanttEntry;
 import com.example.schedulers.Priority;
 import com.example.schedulers.Process;
+import com.example.schedulers.ProcessMetrics;
 import com.example.schedulers.RR;
 import com.example.schedulers.Results;
 import com.example.schedulers.SJF;
@@ -125,6 +128,8 @@ public class UI_controller implements Initializable {
     @FXML
     private ImageView reset;
 
+    @FXML
+    private Label error_label;
 
     @FXML
     private TableColumn<com.example.schedulers.Process, String> processName_col;
@@ -140,6 +145,13 @@ public class UI_controller implements Initializable {
 
     @FXML
     private TableColumn<com.example.schedulers.Process, Integer> priority_col;
+
+    @FXML
+    private TableColumn<com.example.schedulers.Process, Integer> waitingTime_col;
+
+    @FXML
+    private TableColumn<com.example.schedulers.Process, Integer> turnaroundTime_col;
+
 
     @FXML
     private Label priorityQuantum_label;
@@ -180,6 +192,12 @@ public class UI_controller implements Initializable {
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
         burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
         priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
+        //////
+        waitingTime_col.setCellValueFactory(new PropertyValueFactory<>("waitingTime"));
+        turnaroundTime_col.setCellValueFactory(new PropertyValueFactory<>("turnaroundTime"));
+        waitingTime_col.setVisible(false);
+        turnaroundTime_col.setVisible(false);
+        //////////////
         priority_col.setVisible(false);
         priorityQuantum_textField.setVisible(false);
         priorityQuantum_label.setVisible(false);
@@ -192,6 +210,7 @@ public class UI_controller implements Initializable {
     }
 
     private void handleSchedulingChoice(String newVal) {
+        
         switch (SchedulingMethod_choiceList.getValue()) {
             case "Priority (Preemptive)":
             case "Priority (Non-Preemptive)":
@@ -218,36 +237,31 @@ public class UI_controller implements Initializable {
     }
 
     @FXML
-    public void addProcess(ActionEvent event) {
-        if(table.getItems().isEmpty()){
-            SchedulingMethod_choiceList.setDisable(true);
-        }
+    public void addProcess(ActionEvent event) {    
+
         int arrivalTime;
-        if (isRunning) { 
-            if(ArrivalTime_textField.getText().isEmpty()){
-                arrivalTime=chart.getEntries().size();
-             }
-             else{
-                arrivalTime=chart.getEntries().size()+Integer.parseInt(ArrivalTime_textField.getText());
-             }
-        }else{
-         arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());}
-         ArrivalTime_textField.setText(arrivalTime+"");
 
         // Check if the text fields are empty before adding a process
         if (ProcessName_textField.getText().isEmpty() || ArrivalTime_textField.getText().isEmpty() || BurstTime_textField.getText().isEmpty()) {
             System.out.println("Please fill in all fields.");
+            error_label.setText("Please fill in all fields.");
+            error_label.setVisible(true);
+
             return;
         }
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
             if (priorityQuantum_textField.getText().isEmpty()) {
                 System.out.println("Please fill in all fields.");
+                error_label.setText("Please fill in all fields.");
+                error_label.setVisible(true);
                 return;
             }
         } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
             if (priorityQuantum_textField.getText().isEmpty()) {
                 System.out.println("Please fill in all fields.");
+                error_label.setText("Please fill in all fields.");
+                error_label.setVisible(true);
                 return;
             }
         } 
@@ -260,38 +274,49 @@ public class UI_controller implements Initializable {
                     SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
                 Integer.parseInt(priorityQuantum_textField.getText());
             } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-                if(table.getItems().isEmpty()){
-                    rr = Integer.parseInt(priorityQuantum_textField.getText());
-                    priorityQuantum_textField.setEditable(false);
-                }
-                else{
-                    priorityQuantum_textField.setText(rr+"");
-                    
-                    
-                }
+               
             }
         }
         catch (NumberFormatException e) {
             System.out.println("Please enter valid integer values.");
+            error_label.setText("Please enter valid integer values.");
+            error_label.setVisible(true);
             return;
         }
         // Check if the input values are non-negative
         if (Integer.parseInt(ArrivalTime_textField.getText()) < 0 || Integer.parseInt(BurstTime_textField.getText()) < 0) {
             System.out.println("Please enter non-negative values.");
+            error_label.setText("Please enter non-negative values.");
+            error_label.setVisible(true);
             return;
         }
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
             if (Integer.parseInt(priorityQuantum_textField.getText()) < 0) {
                 System.out.println("Please enter non-negative values.");
+                error_label.setText("Please enter non-negative values.");
+                error_label.setVisible(true);
                 return;
             }
         } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
             if (Integer.parseInt(priorityQuantum_textField.getText()) <= 0) {
                 System.out.println("Please enter positive values for quantum time.");
+                error_label.setText("Please enter positive values for quantum time.");
+                error_label.setVisible(true);
                 return;
             }
         }
+
+        if (isRunning) { 
+            if(ArrivalTime_textField.getText().isEmpty()){
+                arrivalTime=chart.getEntries().size();
+             }
+             else{
+                arrivalTime=chart.getEntries().size()+Integer.parseInt(ArrivalTime_textField.getText());
+             }
+        }else{
+         arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());}
+         ArrivalTime_textField.setText(arrivalTime+"");
 
 
         String processName = ProcessName_textField.getText();
@@ -315,11 +340,22 @@ public class UI_controller implements Initializable {
                 simulator.addProcess(p);
             }
         }
+
+        if(!currentTableData.isEmpty()) {
+            SchedulingMethod_choiceList.setDisable(true);
+            if(SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
+            rr = Integer.parseInt(priorityQuantum_textField.getText());
+                    priorityQuantum_textField.setEditable(false);}
+        }
         
+        // Clear the text fields after adding the process
         ProcessName_textField.clear();
         ArrivalTime_textField.clear();
         BurstTime_textField.clear();
         quantumTime_textField.clear();
+        priorityQuantum_textField.clear();
+        error_label.setVisible(false);        
+
     }
 
     public void startSimulation(ActionEvent actionEvent) {
@@ -355,7 +391,10 @@ public class UI_controller implements Initializable {
                         liveSimulation_btn.setDisable(false);
                         SchedulingMethod_choiceList.setDisable(false);
                     });
-                    System.out.println("All processes have terminated.");
+                    System.out.println("All processes have terminated.");  
+                    //test
+                          
+
                 }
                 return null;
             }
@@ -380,6 +419,7 @@ public class UI_controller implements Initializable {
             });
             //SchedulingMethod_choiceList.setDisable(false);
             System.out.println("All processes have terminated.");
+            
         }
 
     }
@@ -424,9 +464,20 @@ public class UI_controller implements Initializable {
     }
 
     private void getResults(GanttChart gaunt){
+        
+        
+        
+        
         Results results = new Results(gaunt);
-        Average_Waiting_Time_textField.setText(Double.toString(results.getAverageWaitingTime()));
-        Average_Turnaround_Time_textField.setText(Double.toString(results.getAverageTurnaroundTime()));
+        Average_Waiting_Time_textField.setText(String.format("%.2f",results.getAverageWaitingTime()));
+        Average_Turnaround_Time_textField.setText(String.format("%.2f", results.getAverageTurnaroundTime()));
+
+        waitingTime_col.setVisible(true);
+        turnaroundTime_col.setVisible(true);
+
+
+
+        
     }
 
     private void shownewproccess(int i) {
@@ -478,7 +529,7 @@ public class UI_controller implements Initializable {
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 740);
+        Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
         Stage mainStage = (Stage) goBack_btn.getScene().getWindow();
         mainStage.centerOnScreen();
         mainStage.setScene(scene);
@@ -492,6 +543,10 @@ public class UI_controller implements Initializable {
         Average_Turnaround_Time_textField.clear();
         isRunning = false;
         priorityQuantum_textField.setEditable(true);
+        priorityQuantum_textField.clear();
+        SchedulingMethod_choiceList.setDisable(false);
+        waitingTime_col.setVisible(false);
+        turnaroundTime_col.setVisible(false);
         }
 }
 
