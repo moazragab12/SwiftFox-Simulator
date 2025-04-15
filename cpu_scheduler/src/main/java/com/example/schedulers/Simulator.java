@@ -1,7 +1,5 @@
 package com.example.schedulers;
 
-import javafx.scene.control.TableView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

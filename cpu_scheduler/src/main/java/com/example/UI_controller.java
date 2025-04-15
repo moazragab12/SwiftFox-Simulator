@@ -2,10 +2,8 @@ package com.example;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,7 +12,6 @@ import com.example.schedulers.GanttChart;
 import com.example.schedulers.GanttEntry;
 import com.example.schedulers.Priority;
 import com.example.schedulers.Process;
-import com.example.schedulers.ProcessMetrics;
 import com.example.schedulers.RR;
 import com.example.schedulers.Results;
 import com.example.schedulers.SJF;
@@ -31,7 +28,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;

@@ -1,7 +1,6 @@
 package com.example.schedulers;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 
 public final class Process {
