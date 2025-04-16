@@ -3,9 +3,6 @@ package com.example.schedulers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class GanttChart {
     private final ObservableList<GanttEntry> entries = FXCollections.observableArrayList();//converted it to obeservable list
 

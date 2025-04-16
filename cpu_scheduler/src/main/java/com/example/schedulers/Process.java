@@ -1,7 +1,6 @@
 package com.example.schedulers;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 
 
 public final class Process {
@@ -11,6 +10,8 @@ public final class Process {
     private final int arrivalTime;
     private final int burstTime;
     private final int priority;
+    private int waitingTime;
+    private int turnaroundTime;
     private int remainingTime ;
     public enum ProcessState {NEW, READY, RUNNING, TERMINATED}
     private ProcessState state;
@@ -62,6 +63,11 @@ public final class Process {
     public ProcessState getState() { return state; }
     public void setRunning() {state = ProcessState.RUNNING;}
     public void setReady() {state = ProcessState.READY;}
+    public void setTerminated() {state = ProcessState.TERMINATED;}
+    public int getWaitingTime() { return waitingTime; }
+    public void setWaitingTime(int waitingTime) { this.waitingTime = waitingTime; }
+    public int getTurnaroundTime() { return turnaroundTime; }
+    public void setTurnaroundTime(int turnaroundTime) { this.turnaroundTime = turnaroundTime; }
 
     public SimpleIntegerProperty remainingTimeProperty() {
         return remainingTimeProperty;

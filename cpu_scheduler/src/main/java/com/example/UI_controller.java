@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -27,7 +28,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -125,6 +125,8 @@ public class UI_controller implements Initializable {
     @FXML
     private ImageView reset;
 
+    @FXML
+    private Label error_label;
 
     @FXML
     private TableColumn<com.example.schedulers.Process, String> processName_col;
@@ -140,6 +142,13 @@ public class UI_controller implements Initializable {
 
     @FXML
     private TableColumn<com.example.schedulers.Process, Integer> priority_col;
+
+    @FXML
+    private TableColumn<com.example.schedulers.Process, Integer> waitingTime_col;
+
+    @FXML
+    private TableColumn<com.example.schedulers.Process, Integer> turnaroundTime_col;
+
 
     @FXML
     private Label priorityQuantum_label;
@@ -166,7 +175,23 @@ public class UI_controller implements Initializable {
     HashMap<Integer, Color> ProcessColors ;
     int rr;
     boolean isRunning = false;
-    private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);
+    int rectangleWidth = 55;
+    int rectangleHeight = 20;  
+    
+    private List<Color> lightColors = Arrays.asList(
+        Color.web("#FF7F00"), // vivid orange (your image)
+        Color.web("#FF8C00"), // dark orange
+        Color.web("#FF7518"), // pumpkin
+        Color.web("#F28500"), // tangerine
+        Color.web("#E67300"), // strong warm orange
+        Color.web("#FF6F00"), // amber orange
+        Color.web("#D65A00"), // deep orange rust
+        Color.web("#CC5800"), // rich copper
+        Color.web("#B34700"), // burnt orange
+        Color.web("#993D00")  // sienna brown-orange
+    );
+    
+    // private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setItems(currentTableData);
@@ -178,6 +203,12 @@ public class UI_controller implements Initializable {
         arrival_col.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
         burst_col.setCellValueFactory(new PropertyValueFactory<>("burstTime"));
         priority_col.setCellValueFactory(new PropertyValueFactory<>("priority"));
+        //////
+        waitingTime_col.setCellValueFactory(new PropertyValueFactory<>("waitingTime"));
+        turnaroundTime_col.setCellValueFactory(new PropertyValueFactory<>("turnaroundTime"));
+        waitingTime_col.setVisible(true);
+        turnaroundTime_col.setVisible(true);
+        //////////////
         priority_col.setVisible(false);
         priorityQuantum_textField.setVisible(false);
         priorityQuantum_label.setVisible(false);
@@ -190,6 +221,7 @@ public class UI_controller implements Initializable {
     }
 
     private void handleSchedulingChoice(String newVal) {
+        
         switch (SchedulingMethod_choiceList.getValue()) {
             case "Priority (Preemptive)":
             case "Priority (Non-Preemptive)":
@@ -216,33 +248,31 @@ public class UI_controller implements Initializable {
     }
 
     @FXML
-    public void addProcess(ActionEvent event) {
+    public void addProcess(ActionEvent event) {    
+
         int arrivalTime;
-        if (isRunning) { 
-            if(ArrivalTime_textField.getText().isEmpty()){
-                arrivalTime=chart.getEntries().size();
-             }
-             else{
-                arrivalTime=chart.getEntries().size()+Integer.parseInt(ArrivalTime_textField.getText());
-             }
-        }else{
-         arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());}
-         ArrivalTime_textField.setText(arrivalTime+"");
 
         // Check if the text fields are empty before adding a process
         if (ProcessName_textField.getText().isEmpty() || ArrivalTime_textField.getText().isEmpty() || BurstTime_textField.getText().isEmpty()) {
             System.out.println("Please fill in all fields.");
+            error_label.setText("Please fill in all fields.");
+            error_label.setVisible(true);
+
             return;
         }
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
             if (priorityQuantum_textField.getText().isEmpty()) {
                 System.out.println("Please fill in all fields.");
+                error_label.setText("Please fill in all fields.");
+                error_label.setVisible(true);
                 return;
             }
         } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
             if (priorityQuantum_textField.getText().isEmpty()) {
                 System.out.println("Please fill in all fields.");
+                error_label.setText("Please fill in all fields.");
+                error_label.setVisible(true);
                 return;
             }
         } 
@@ -255,38 +285,49 @@ public class UI_controller implements Initializable {
                     SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
                 Integer.parseInt(priorityQuantum_textField.getText());
             } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
-                if(table.getItems().isEmpty()){
-                    rr = Integer.parseInt(priorityQuantum_textField.getText());
-                    priorityQuantum_textField.setEditable(false);
-                }
-                else{
-                    priorityQuantum_textField.setText(rr+"");
-                    
-                    
-                }
+               
             }
         }
         catch (NumberFormatException e) {
             System.out.println("Please enter valid integer values.");
+            error_label.setText("Please enter valid integer values.");
+            error_label.setVisible(true);
             return;
         }
         // Check if the input values are non-negative
         if (Integer.parseInt(ArrivalTime_textField.getText()) < 0 || Integer.parseInt(BurstTime_textField.getText()) < 0) {
             System.out.println("Please enter non-negative values.");
+            error_label.setText("Please enter non-negative values.");
+            error_label.setVisible(true);
             return;
         }
         if (SchedulingMethod_choiceList.getValue().equals("Priority (Preemptive)") ||
                 SchedulingMethod_choiceList.getValue().equals("Priority (Non-Preemptive)")) {
             if (Integer.parseInt(priorityQuantum_textField.getText()) < 0) {
                 System.out.println("Please enter non-negative values.");
+                error_label.setText("Please enter non-negative values.");
+                error_label.setVisible(true);
                 return;
             }
         } else if (SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
             if (Integer.parseInt(priorityQuantum_textField.getText()) <= 0) {
                 System.out.println("Please enter positive values for quantum time.");
+                error_label.setText("Please enter positive values for quantum time.");
+                error_label.setVisible(true);
                 return;
             }
         }
+
+        if (isRunning) { 
+            if(ArrivalTime_textField.getText().isEmpty()){
+                arrivalTime=chart.getEntries().size();
+             }
+             else{
+                arrivalTime=chart.getEntries().size()+Integer.parseInt(ArrivalTime_textField.getText());
+             }
+        }else{
+         arrivalTime = Integer.parseInt(ArrivalTime_textField.getText());}
+         ArrivalTime_textField.setText(arrivalTime+"");
 
 
         String processName = ProcessName_textField.getText();
@@ -310,15 +351,27 @@ public class UI_controller implements Initializable {
                 simulator.addProcess(p);
             }
         }
+
+        if(!currentTableData.isEmpty()) {
+            SchedulingMethod_choiceList.setDisable(true);
+            if(SchedulingMethod_choiceList.getValue().equals("Round Robin")) {
+            rr = Integer.parseInt(priorityQuantum_textField.getText());
+                    priorityQuantum_textField.setEditable(false);}
+        }
         
+        // Clear the text fields after adding the process
         ProcessName_textField.clear();
         ArrivalTime_textField.clear();
         BurstTime_textField.clear();
         quantumTime_textField.clear();
+        priorityQuantum_textField.clear();
+        error_label.setVisible(false);        
+
     }
 
     public void startSimulation(ActionEvent actionEvent) {
-        SchedulingMethod_choiceList.setDisable(true);
+        if(!isRunning && !currentTableData.isEmpty()) {
+        liveSimulation_btn.setDisable(true);
         scheduler = getScheduler();
         chart = new GanttChart();
         simulator = new Simulator(currentTableData, scheduler, chart);
@@ -342,13 +395,22 @@ public class UI_controller implements Initializable {
                 if (simulator.allProcessesTerminated()) {
                     // Display an alert window
                     Platform.runLater(() -> {
+                        waitingTime_col.setVisible(false);
+                        turnaroundTime_col.setVisible(false);
+                        waitingTime_col.setVisible(true);
+                        turnaroundTime_col.setVisible(true);
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Simulation Complete");
                         alert.setHeaderText(null);
                         alert.setContentText("All processes have terminated successfully.");
                         alert.showAndWait();
+                        liveSimulation_btn.setDisable(false);
+                        SchedulingMethod_choiceList.setDisable(false);
                     });
-                    System.out.println("All processes have terminated.");
+                    System.out.println("All processes have terminated.");  
+                    //test
+                          
+
                 }
                 return null;
             }
@@ -363,14 +425,31 @@ public class UI_controller implements Initializable {
         if (simulator.allProcessesTerminated()) {
             // Display an alert window
             Platform.runLater(() -> {
+                waitingTime_col.setVisible(false);
+                turnaroundTime_col.setVisible(false);
+                waitingTime_col.setVisible(true);
+                turnaroundTime_col.setVisible(true);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Simulation Complete");
                 alert.setHeaderText(null);
                 alert.setContentText("All processes have terminated successfully.");
                 alert.showAndWait();
+                liveSimulation_btn.setDisable(false);
+                SchedulingMethod_choiceList.setDisable(false);
             });
             //SchedulingMethod_choiceList.setDisable(false);
             System.out.println("All processes have terminated.");
+            
+        }
+        } else if (currentTableData.isEmpty()) {
+            System.out.println("Please add processes to the table before starting the simulation.");
+            error_label.setText("Please add processes to the table before starting the simulation.");
+            error_label.setVisible(true);
+        }
+        else {
+            System.out.println("Simulation is already running.");
+            error_label.setText("Simulation is already running.");
+            error_label.setVisible(true);
         }
     }
 
@@ -414,9 +493,20 @@ public class UI_controller implements Initializable {
     }
 
     private void getResults(GanttChart gaunt){
+        
+        
+        
+        
         Results results = new Results(gaunt);
-        Average_Waiting_Time_textField.setText(Double.toString(results.getAverageWaitingTime()));
-        Average_Turnaround_Time_textField.setText(Double.toString(results.getAverageTurnaroundTime()));
+        Average_Waiting_Time_textField.setText(String.format("%.2f",results.getAverageWaitingTime()));
+        Average_Turnaround_Time_textField.setText(String.format("%.2f", results.getAverageTurnaroundTime()));
+
+        // waitingTime_col.setVisible(true);
+        // turnaroundTime_col.setVisible(true);
+
+
+
+        
     }
 
     private void shownewproccess(int i) {
@@ -432,11 +522,11 @@ public class UI_controller implements Initializable {
             }
         // Create rectangle with text
         Text centerText = new Text();
-        centerText.setText(taskname.length() > 5 ? taskname.substring(0, 5) + "..." : taskname);
+        centerText.setText(taskname.length() > 4 ? taskname.substring(0, 4) + "..." : taskname);
         centerText.setFill(Color.BLACK);
-        centerText.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        centerText.setWrappingWidth(50 - 10);
-        Rectangle rectangle = new Rectangle(50, 70);
+        centerText.setStyle("-fx-font-size: 10px; -fx-font-weight: bold;");
+        centerText.setWrappingWidth(rectangleWidth - 10);
+        Rectangle rectangle = new Rectangle(rectangleWidth, rectangleHeight);
         if(taskname.equals("IDLE"))
             rectangle.setFill(Color.LIGHTGRAY);
         else if ( !ProcessColors.containsKey(chart.getEntries().get(i - 1).getProcess().getPid()))
@@ -456,10 +546,10 @@ public class UI_controller implements Initializable {
 
         // Create number with alignment
         Text numberText = new Text(String.valueOf(i));
-        numberText.setStyle("-fx-font-size: 12px;");
+        numberText.setStyle("-fx-font-size: 9px;");
 
         StackPane numberContainer = new StackPane(numberText);
-        numberContainer.setMinWidth(50+1);
+        numberContainer.setMinWidth(rectangleWidth+1);
         numberContainer.setAlignment(Pos.BOTTOM_RIGHT);
 
         timelineBox.getChildren().add(numberContainer);
@@ -468,13 +558,14 @@ public class UI_controller implements Initializable {
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 740);
+        Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
         Stage mainStage = (Stage) goBack_btn.getScene().getWindow();
         mainStage.centerOnScreen();
         mainStage.setScene(scene);
     }
 
     public void reset(MouseEvent mouseEvent) {
+        error_label.setVisible(false);
         table.getItems().clear();
         rectanglesBox.getChildren().clear();
         timelineBox.getChildren().clear();
@@ -482,7 +573,10 @@ public class UI_controller implements Initializable {
         Average_Turnaround_Time_textField.clear();
         isRunning = false;
         priorityQuantum_textField.setEditable(true);
+        priorityQuantum_textField.clear();
         SchedulingMethod_choiceList.setDisable(false);
+        // waitingTime_col.setVisible(false);
+        // turnaroundTime_col.setVisible(false);
         }
 }
 
