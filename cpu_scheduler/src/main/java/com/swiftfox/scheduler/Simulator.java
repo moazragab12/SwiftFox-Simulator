@@ -13,22 +13,22 @@ public final class Simulator
 {
     private final Scheduler scheduler;
     private final GanttChart ganttChart;
-    private final List<com.swiftfox.model.Process> processes;
+    private final List<Process> processes;
     private int timer;
     private volatile boolean isRunning;
-    private SimpleIntegerProperty simpleIntegerProperty;
+    private final SimpleIntegerProperty simpleIntegerProperty;
 
-    public Simulator(List<com.swiftfox.model.Process> processes, Scheduler scheduler, GanttChart ganttChart)
+    public Simulator(List<Process> processes, Scheduler scheduler, GanttChart ganttChart)
     {
         timer = 0;
         isRunning = false;
         this.scheduler = Objects.requireNonNull(scheduler);
         this.ganttChart = Objects.requireNonNull(ganttChart);
         this.processes = new ArrayList<>(Objects.requireNonNull(processes));
-
+        this.simpleIntegerProperty = new SimpleIntegerProperty();
     }
 
-    public synchronized void addProcess(com.swiftfox.model.Process process)
+    public synchronized void addProcess(Process process)
     {
         if (isRunning) addToReadyQueue(process);
         processes.add(process);
@@ -72,7 +72,7 @@ public final class Simulator
         if (!isRunning) return;
 
         checkNewArrivals();
-        com.swiftfox.model.Process next = scheduler.decideNextProcess();
+        Process next = scheduler.decideNextProcess();
 
         if (next != null)
         {
@@ -90,13 +90,13 @@ public final class Simulator
 
     private void checkNewArrivals()
     {
-        Predicate<com.swiftfox.model.Process> isArrived = p -> p.getArrivalTime() <= timer && p.getState() == Process.State.NEW;
+        Predicate<Process> isArrived = p -> p.getArrivalTime() <= timer && p.getState() == Process.State.NEW;
 
         processes.stream().filter(isArrived).forEach(this::addToReadyQueue);
 
     }
 
-    private void addToReadyQueue(com.swiftfox.model.Process process)
+    private void addToReadyQueue(Process process)
     {
 
         if (process.getState() != Process.State.NEW) return;

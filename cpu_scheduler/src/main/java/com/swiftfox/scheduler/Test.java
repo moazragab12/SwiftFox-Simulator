@@ -12,9 +12,9 @@ public class Test
     public static void testSimulator()
     {
         // Create processes
-        List<com.swiftfox.model.Process> processes = new ArrayList<>();
+        List<Process> processes = new ArrayList<>();
 
-        processes.add(new com.swiftfox.model.Process("P1", 0, 4, 0));
+        processes.add(new Process("P1", 0, 4, 0));
         processes.add(new Process("P2", 12, 1, 2));
 
         // Initialize components

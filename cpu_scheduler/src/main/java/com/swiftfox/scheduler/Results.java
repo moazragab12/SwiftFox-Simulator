@@ -28,7 +28,7 @@ public final class Results
                         && entry.getProcess().getState() == Process.State.TERMINATED;
 
         // Using streams to filter, map, and collect the results
-        Map<com.swiftfox.model.Process, Integer> completionTimes = ganttChart.getEntries().stream()
+        Map<Process, Integer> completionTimes = ganttChart.getEntries().stream()
                 .filter(isTerminatedProcess)  // Use the predicate for filtering
                 .collect(Collectors.toMap(
                         GanttEntry::getProcess,
@@ -73,7 +73,7 @@ public final class Results
         }
 
 
-        private void addProcessMetrics (com.swiftfox.model.Process process, int finish)
+        private void addProcessMetrics (Process process, int finish)
         {
             int turnaround = finish - process.getArrivalTime();
             int waiting = turnaround - process.getBurstTime();
@@ -82,7 +82,7 @@ public final class Results
             processMetrics.add(new ProcessMetrics(process, turnaround, waiting));
         }
 
-        public Map<com.swiftfox.model.Process, Integer> getProcessWaitingTimes() {
+        public Map<Process, Integer> getProcessWaitingTimes() {
             return processMetrics.stream()
                                  .collect(Collectors.toMap(
                                      ProcessMetrics::getProcess, // Key: Process
