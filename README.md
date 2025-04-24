@@ -2,9 +2,9 @@
 
 **CPU Scheduler Simulator** is a Java-based desktop application built with JavaFX to simulate and visualize various CPU scheduling algorithms in real time. The application offers dynamic process management, live visualization, and detailed statistical analysis—ideal for academic and educational purposes.
 ### Home Screen
-![Home Screen](cpu_scheduler/src/main/resources/com/example/images/welcomingScene.png "Home Screen")
+![Home Screen](cpu_scheduler/src/main/resources/com/swiftfox/images/welcomingScene.png "Home Screen")
 ### Processing Screen
-![Processing Screen](cpu_scheduler/src/main/resources/com/example/images/MainScene.png "Processing Screen")
+![Processing Screen](cpu_scheduler/src/main/resources/com/swiftfox/images/MainScene.png "Processing Screen")
 
 ---
 
