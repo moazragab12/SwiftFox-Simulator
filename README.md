@@ -58,7 +58,13 @@
 
 ### Running the Application
 
-### Option 1: Using the Executable JAR
+### Option 1: Using the Executable EXE
+
+#### 1. Download the `SwiftFox-Simulator.exe` file from [here](https://github.com/MoustafaHashem/SwiftFox-Simulator/releases/download/ReadyToPublish/SwiftFox.zip).
+
+#### 2. Double-click the `.exe` file to launch the application directly on Windows — no additional setup required.
+
+### Option 2: Using the Executable JAR
 
 #### 1. Download the compiled .jar file from the dist/ directory.
 
@@ -66,7 +72,7 @@
    ```bush
    java -jar SwiftFox-Simulator.jar
    ```
-### Option 2: From Source (Maven)
+### Option 3: From Source (Maven)
 
 #### 1. Clone the repository
 ```bash
