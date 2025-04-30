@@ -60,9 +60,13 @@
 
 ### Option 1: Using the Executable EXE
 
-#### 1. Download the `SwiftFox-Simulator.exe` file from [here](https://github.com/MoustafaHashem/SwiftFox-Simulator/releases/download/ReadyToPublish/SwiftFox.zip).
+#### Download the ZIP archive containing the Windows executable from [here](https://github.com/MoustafaHashem/SwiftFox-Simulator/releases/download/ReadyToPublish/SwiftFox.zip), then:
 
-#### 2. Double-click the `.exe` file to launch the application directly on Windows — no additional setup required.
+#### 1. Extract the ZIP file.
+
+#### 2. Double-click the `SwiftFox-Simulator.exe` file.
+
+#### 3. The application will launch immediately with no additional setup.
 
 ### Option 2: Using the Executable JAR
 
