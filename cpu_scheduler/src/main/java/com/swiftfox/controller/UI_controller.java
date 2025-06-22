@@ -44,7 +44,39 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 //import static com.example.schedulers.Main.chart;
-
+/**
+ * Controller class for the main simulation interface of the SwiftFox CPU Scheduler Simulator.
+ *
+ * <p>This class manages the user interaction logic for process input, scheduling selection,
+ * Gantt chart rendering, and displaying simulation results. It connects the JavaFX UI elements
+ * to the backend scheduler and simulator classes, enabling live and static simulations.
+ *
+ * <p>Key responsibilities include:
+ * <ul>
+ *   <li>Initializing the process table and UI components</li>
+ *   <li>Handling user inputs for different scheduling algorithms</li>
+ *   <li>Managing simulation execution and result presentation</li>
+ *   <li>Displaying Gantt charts and statistics like average waiting and turnaround times</li>
+ * </ul>
+ *
+ * <p>Supported algorithms:
+ * <ul>
+ *   <li>FCFS</li>
+ *   <li>SJF (Preemptive / Non-Preemptive)</li>
+ *   <li>Priority (Preemptive / Non-Preemptive)</li>
+ *   <li>Round Robin</li>
+ * </ul>
+ *
+ * @author SwiftFox Team
+ * @version 1.0
+ * @since 1.0
+ * @see Scheduler
+ * @see Simulator
+ * @see GanttChart
+ * @see Process
+ * @see Results
+ * @see javafx.fxml.Initializable
+ */
 public class UI_controller implements Initializable {
 
 
@@ -193,6 +225,17 @@ public class UI_controller implements Initializable {
     );
     
     // private List <Color>lightColors= List.of(Color.LIGHTCYAN,Color.LIGHTBLUE, Color.LIGHTGREEN, Color.LIGHTPINK, Color.LIGHTYELLOW, Color.LIGHTCORAL, Color.LIGHTSALMON,Color.LIGHTGOLDENRODYELLOW);    
+    /**
+     * Initializes the main simulation UI after the FXML layout is loaded.
+     * <p>
+     * This method sets up table bindings, column value factories, initial visibility
+     * of components, and populates the scheduling algorithm choices. It also prepares
+     * the Gantt chart container and event listener for scheduling method selection.
+     * </p>
+     *
+     * @param url the location used to resolve relative paths for the root object, or {@code null} if not known
+     * @param resourceBundle the resources used to localize the root object, or {@code null} if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         table.setItems(currentTableData);
@@ -220,7 +263,15 @@ public class UI_controller implements Initializable {
         });
         ProcessColors = new HashMap<>();
     }
-
+    /**
+     * Handles UI adjustments based on the selected scheduling algorithm.
+     * <p>
+     * This method modifies the visibility and labeling of UI elements related to
+     * priority or quantum time based on the user's selection from the scheduling method choice list.
+     * </p>
+     *
+     * @param newVal the newly selected scheduling algorithm name
+     */
     private void handleSchedulingChoice(String newVal) {
         
         switch (SchedulingMethod_choiceList.getValue()) {
@@ -247,7 +298,26 @@ public class UI_controller implements Initializable {
                 priority_col.setVisible(false);
         }
     }
-
+    /**
+     * Adds a new process to the current scheduling table based on user input.
+     * <p>
+     * This method validates user input from various text fields, ensuring that required fields
+     * are not empty, values are integers, and inputs are non-negative. Based on the selected
+     * scheduling algorithm (including handling for Priority and Round Robin), it creates
+     * a {@code Process} object and adds it to the process table. If a simulation is already
+     * running, it also inserts the new process into the simulator in real time.
+     * </p>
+     *
+     * <p>
+     * The method also updates the UI accordingly, displays error messages for invalid input,
+     * and disables certain UI controls (like the scheduling method selection) once processes are added.
+     * </p>
+     *
+     * @param event the action event triggered by the "Add Process" button
+     *
+     * @see Process
+     * @see Simulator
+     */
     @FXML
     public void addProcess(ActionEvent event) {    
 
@@ -369,7 +439,32 @@ public class UI_controller implements Initializable {
         error_label.setVisible(false);        
 
     }
-
+    /**
+     * Starts the CPU scheduling simulation based on the selected algorithm and user-defined processes.
+     * <p>
+     * If the simulation is not already running and there are processes available in the table,
+     * this method initializes the scheduler, Gantt chart, and simulator. It then either runs
+     * the simulation in static or live mode depending on the state of the live simulation toggle.
+     * </p>
+     *
+     * <p>
+     * A listener is attached to the Gantt chart entries to handle updates during the live simulation.
+     * Upon completion, the method displays an alert notifying the user that all processes have terminated,
+     * and resets UI controls accordingly.
+     * </p>
+     *
+     * <p>
+     * If the simulation is already running or no processes are added,  IDLE message are shown.
+     * </p>
+     *
+     * @param actionEvent the event triggered when the "Start Simulation" button is pressed
+     *
+     * @see Simulator
+     * @see GanttChart
+     * @see javafx.concurrent.Task
+     * @see javafx.application.Platform
+     * @see javafx.collections.ObservableList
+     */
     public void startSimulation(ActionEvent actionEvent) {
         if(!isRunning && !currentTableData.isEmpty()) {
         liveSimulation_btn.setDisable(true);
@@ -450,7 +545,18 @@ public class UI_controller implements Initializable {
             error_label.setVisible(true);
         }
     }
-
+    /**
+     * Handles the display of newly scheduled processes on the Gantt chart.
+     * <p>
+     * This method determines whether to call {@code shownewproccess} directly or via
+     * the JavaFX application thread based on whether the simulation is running in live mode.
+     * It ensures UI updates are performed safely when needed.
+     * </p>
+     *
+     * <p>
+     * If the Gantt chart is empty during live mode, a warning is printed and the method exits.
+     * </p>
+     */
     private void ProccessHandler() {
         int tasksSize = chart.getEntries().size();
         if (!liveSimulation_btn.isSelected()) {
@@ -465,7 +571,21 @@ public class UI_controller implements Initializable {
             });
         }
     }
-
+    /**
+     * Returns an instance of the selected CPU scheduling algorithm.
+     * <p>
+     * Based on the user's choice from the scheduling method dropdown, this method
+     * initializes the corresponding {@link Scheduler} implementation, including:
+     * <ul>
+     *     <li>{@link FCFS} - First-Come, First-Served</li>
+     *     <li>{@link SJF} - Shortest Job First (preemptive or non-preemptive)</li>
+     *     <li>{@link Priority} - Priority Scheduling (preemptive or non-preemptive)</li>
+     *     <li>{@link RR} - Round Robin (using the value of {@code rr} as the quantum)</li>
+     * </ul>
+     * </p>
+     *
+     * @return the configured {@code Scheduler} instance
+     */
     private Scheduler getScheduler(){
         switch (SchedulingMethod_choiceList.getValue()){
             case "FCFS":
@@ -489,7 +609,18 @@ public class UI_controller implements Initializable {
         }
         return scheduler;
     }
-
+    /**
+     * Calculates and displays the average waiting time and turnaround time based on the given Gantt chart.
+     * <p>
+     * This method uses the {@link Results} class to compute performance metrics of the scheduling simulation,
+     * including average waiting time and average turnaround time, which are then displayed in their
+     * respective UI text fields.
+     * </p>
+     *
+     * @param gaunt the {@code GanttChart} object containing the simulation timeline data
+     *
+     * @see Results
+     */
     private void getResults(GanttChart gaunt){
 
         Results results = new Results(gaunt);
@@ -500,7 +631,19 @@ public class UI_controller implements Initializable {
         // turnaroundTime_col.setVisible(true);
 
     }
-
+    /**
+     * Visually displays a newly scheduled process on the Gantt chart.
+     * <p>
+     * This method adds a labeled rectangle representing a process (or IDLE time) to the Gantt chart UI.
+     * It handles process coloring, tooltips, and alignment of timeline markers. If the process is new,
+     * a unique color is assigned from a predefined list; otherwise, it reuses the existing color for that process.
+     * </p>
+     *
+     * @param i the index of the latest entry in the Gantt chart to display
+     *
+     * @see GanttEntry
+     * @see GanttChart
+     */
     private void shownewproccess(int i) {
         String taskname = "IDLE";
         //  System.out.println("Process ID: " + i);
@@ -544,7 +687,18 @@ public class UI_controller implements Initializable {
 
         timelineBox.getChildren().add(numberContainer);
     }
-
+    /**
+     * Handles the "Go Back" button action to return to the primary screen.
+     * <p>
+     * Loads the primary user interface layout from {@code primary.fxml} and sets it as the current scene.
+     * This is typically used to navigate back from the simulation or configuration screen to the main menu.
+     * </p>
+     *
+     * @param event the {@code ActionEvent} triggered by clicking the "Go Back" button
+     * @throws IOException if the FXML file cannot be loaded
+     *
+     * @see FXMLLoader
+     */
     @FXML
     void goBack(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("primary.fxml"));
@@ -553,7 +707,16 @@ public class UI_controller implements Initializable {
         mainStage.centerOnScreen();
         mainStage.setScene(scene);
     }
-
+    /**
+     * Resets the simulation interface and clears all user inputs and results.
+     * <p>
+     * This method is triggered by a mouse event (e.g., clicking a reset icon or button)
+     * and performs a full reset of the simulation state. It clears the process table,
+     * Gantt chart, performance result fields, and restores UI components to their default state.
+     * </p>
+     *
+     * @param mouseEvent the {@code MouseEvent} that triggered the reset action
+     */
     public void reset(MouseEvent mouseEvent) {
         error_label.setVisible(false);
         table.getItems().clear();

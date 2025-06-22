@@ -11,7 +11,10 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * JavaFX App
+ * Main application class for the SwiftFox JavaFX-based process scheduling simulator.
+ * <p>
+ * This class is responsible for launching the JavaFX application, initializing the
+ * primary UI scene, and setting up the main window (stage).
  */
 public class App extends Application {
 

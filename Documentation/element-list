@@ -1,0 +1,6 @@
+module:com.swiftfox
+com.swiftfox
+com.swiftfox.controller
+com.swiftfox.model
+com.swiftfox.scheduler
+com.swiftfox.scheduler.algorithms

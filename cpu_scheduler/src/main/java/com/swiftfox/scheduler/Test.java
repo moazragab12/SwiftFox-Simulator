@@ -6,7 +6,16 @@ import com.swiftfox.scheduler.algorithms.Priority;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Runs a test simulation using the Priority scheduling algorithm (non-preemptive).
+ * <p>
+ * This method creates a small set of processes, runs both static and live simulations,
+ * generates the Gantt chart, and prints the scheduling results including process metrics
+ * and average turnaround/waiting times.
+ * <p>
+ * Note: {@code runLive()} includes a delay using {@code Thread.sleep()}, so the execution
+ * will pause visibly in real-time.
+ */
 public class Test
 {
     public static void testSimulator()

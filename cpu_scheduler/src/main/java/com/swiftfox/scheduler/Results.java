@@ -10,16 +10,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
+/**
+ * A utility class that analyzes a {@link GanttChart} to compute metrics such as
+ * waiting time and turnaround time for each {@link Process}.
+ * <p>
+ * These results are typically used for displaying scheduling performance.
+ */
 public final class Results
 {
     private final List<ProcessMetrics> processMetrics = new ArrayList<>();
 
+    /**
+     * Constructs a {@code Results} instance and computes the process metrics from the given {@link GanttChart}.
+     *
+     * @param ganttChart the Gantt chart from which metrics will be calculated
+     */
     public Results(GanttChart ganttChart)
     {
         calculateMetrics(ganttChart);
     }
 
+    /**
+     * Computes the waiting and turnaround times for all completed processes based on the Gantt chart.
+     *
+     * @param ganttChart the Gantt chart containing process execution data
+     */
     private void calculateMetrics(GanttChart ganttChart)
     {
         // Define the predicate to check if the process is terminated
@@ -49,13 +64,21 @@ public final class Results
          }
         */
     }
-
+    /**
+     * Returns a list of all process metrics (turnaround and waiting times).
+     *
+     * @return a new list of {@link ProcessMetrics}
+     */
 
         public List<ProcessMetrics> getAllMetrics ()
         {
             return new ArrayList<>(processMetrics);
         }
-
+    /**
+     * Calculates the average waiting time of all processes.
+     *
+     * @return the average waiting time, or {@code 0.0} if no processes exist
+     */
         public double getAverageWaitingTime ()
         {
             return processMetrics.stream()
@@ -63,7 +86,11 @@ public final class Results
                     .average()
                     .orElse(0.0);
         }
-
+    /**
+     * Calculates the average turnaround time of all processes.
+     *
+     * @return the average turnaround time, or {@code 0.0} if no processes exist
+     */
         public double getAverageTurnaroundTime ()
         {
             return processMetrics.stream()
@@ -73,6 +100,12 @@ public final class Results
         }
 
 
+    /**
+     * Adds a single process's metrics to the internal list.
+     *
+     * @param process the process to evaluate
+     * @param finish  the time the process finished execution
+     */
         private void addProcessMetrics (Process process, int finish)
         {
             int turnaround = finish - process.getArrivalTime();
@@ -81,7 +114,11 @@ public final class Results
             process.setWaitingTime(waiting);
             processMetrics.add(new ProcessMetrics(process, turnaround, waiting));
         }
-
+    /**
+     * Returns a map of each process to its calculated waiting time.
+     *
+     * @return a map of {@link Process} to waiting time
+     */
         public Map<Process, Integer> getProcessWaitingTimes() {
             return processMetrics.stream()
                                  .collect(Collectors.toMap(
@@ -89,7 +126,11 @@ public final class Results
                                      ProcessMetrics::waitingTime // Value: Waiting time
                                  ));
         }
-
+    /**
+     * Returns a map of each process to its calculated turnaround time.
+     *
+     * @return a map of {@link Process} to turnaround time
+     */
         public Map<Process, Integer> getProcessTurnaroundTimes() {
             return processMetrics.stream()
                                  .collect(Collectors.toMap(
