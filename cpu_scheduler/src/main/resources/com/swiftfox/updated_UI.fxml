@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.swiftfox.controller.UI_controller">
+   <children>
+      <AnchorPane prefHeight="768.0" prefWidth="1366.0" style="-fx-padding: 15;">
+         <children>
+            <VBox layoutX="17.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="1300.0" style="-fx-padding: 10; -fx-border-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 2, 0, 0, 1);" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="13.0">
+               <children>
+                  <ScrollPane fx:id="ghantt_VBox" fitToHeight="true" fitToWidth="true" prefHeight="122.0" prefWidth="1330.0" styleClass="pane" stylesheets="@style.css">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ScrollPane>
+               </children>
+               <effect>
+                  <Shadow height="0.0" radius="0.0" width="0.0" />
+               </effect>
+            </VBox>
+            <Label fx:id="processesLabel1" layoutX="45.0" layoutY="8.0" minWidth="-Infinity" prefHeight="34.0" prefWidth="153.0" text="Gantt Chart" textFill="#25265e" AnchorPane.leftAnchor="30.0">
+               <font>
+                  <Font name="Century Gothic Bold" size="27.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets top="100.0" />
+               </opaqueInsets>
+            </Label>
+            <VBox layoutX="357.0" layoutY="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="953.0" style="-fx-padding: 15; -fx-background-color: white; -fx-spacing: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 4);" AnchorPane.rightAnchor="30.0">
+               <children>
+                  <HBox minWidth="-Infinity" prefHeight="85.0" prefWidth="727.0" style="-fx-spacing: 30; -fx-border-radius: 10; -fx-padding: 20; -fx-border-color: #e0e0e0;">
+                     <children>
+                        <Label fx:id="processesLabel" minWidth="-Infinity" prefHeight="43.0" prefWidth="396.0" text="Processes" textFill="#25265e">
+                           <font>
+                              <Font name="Century Gothic Bold" size="27.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets top="100.0" />
+                           </opaqueInsets>
+                        </Label>
+                        <CheckBox fx:id="liveSimulation_btn" mnemonicParsing="false" prefHeight="46.0" prefWidth="177.0" stylesheets="@style.css" text="Live Simulation" />
+                        <ImageView fx:id="reset" fitHeight="43.0" fitWidth="55.0" onMouseClicked="#reset" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/reset.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="start_btn1" alignment="CENTER" mnemonicParsing="false" onAction="#startSimulation" prefHeight="41.0" prefWidth="173.0" styleClass="start_btn1" stylesheets="@style.css" text="Start Simulation" textFill="#00b7f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="16.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="922.0" stylesheets="@style.css">
+                     <columns>
+                        <TableColumn fx:id="processName_col" prefWidth="125" text="Process name">
+                           <styleClass>
+                              <String fx:value="column-header" />
+                              <String fx:value="column-header-background" />
+                           </styleClass>
+                        </TableColumn>
+                        <TableColumn fx:id="arrival_col" minWidth="3.20001220703125" prefWidth="125" text="Arrival Time">
+                           <styleClass>
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                           </styleClass>
+                        </TableColumn>
+                        <TableColumn fx:id="burst_col" prefWidth="125" text="Burst Time">
+                           <styleClass>
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                           </styleClass>
+                        </TableColumn>
+                        <TableColumn fx:id="remaining_col" prefWidth="125" text="Remaining Time">
+                           <styleClass>
+                              <String fx:value="column-header" />
+                              <String fx:value="column-header-background" />
+                           </styleClass>
+                        </TableColumn>
+                        <TableColumn fx:id="priority_col" prefWidth="125" text="Priority">
+                           <styleClass>
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                           </styleClass>
+                        </TableColumn>
+                        <TableColumn fx:id="waitingTime_col" prefWidth="125" text="Waiting">
+                           <styleClass>
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                           </styleClass>
+                        </TableColumn>
+                        <TableColumn fx:id="turnaroundTime_col" prefWidth="125" text="Turnaround">
+                           <styleClass>
+                              <String fx:value="column-header-background" />
+                              <String fx:value="column-header" />
+                           </styleClass>
+                        </TableColumn>
+                     </columns>
+                  </TableView>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
+            <VBox fx:id="addProcess_VBox" layoutX="27.0" layoutY="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="314.0" spacing="10.0" style="-fx-spacing: 5;" styleClass="pane" stylesheets="@style.css" AnchorPane.leftAnchor="30.0">
+               <children>
+                  <Label fx:id="SchedulingMethod_label" text="Scheduling Method" textFill="#25265e">
+                     <font>
+                        <Font name="Century Gothic" size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="SchedulingMethod_choiceList" minHeight="-Infinity" prefHeight="26.0" prefWidth="245.0" style="-fx-background-color: transparent; -fx-border-color: #e2e8f0; -fx-border-radius: 5;" styleClass="choiceBox" />
+                  <Label fx:id="ProcessName_label" prefHeight="18.0" prefWidth="198.0" text="Process Name" textFill="#25265e">
+                     <font>
+                        <Font name="Century Gothic" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="ProcessName_textField" minHeight="-Infinity" prefHeight="26.0" prefWidth="256.0" styleClass="VBoxFields" stylesheets="@style.css" />
+                  <Label fx:id="ArrivalTime_label" prefHeight="18.0" prefWidth="205.0" text="Arrival Time" textFill="#25265e">
+                     <font>
+                        <Font name="Century Gothic" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="ArrivalTime_textField" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="256.0" styleClass="VBoxFields" stylesheets="@style.css" />
+                  <Label fx:id="BurstTime_label" prefHeight="18.0" prefWidth="190.0" text="Burst Time" textFill="#25265e">
+                     <font>
+                        <Font name="Century Gothic" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="BurstTime_textField" minHeight="-Infinity" prefHeight="26.0" prefWidth="256.0" styleClass="VBoxFields" stylesheets="@style.css" />
+                  <VBox prefHeight="58.0" prefWidth="256.0" style="-fx-spacing: 5;">
+                     <children>
+                        <Label fx:id="priorityQuantum_label" text="Priority" textFill="#25265e">
+                           <font>
+                              <Font name="Century Gothic" size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="priorityQuantum_textField" minHeight="-Infinity" prefHeight="26.0" prefWidth="256.0" styleClass="VBoxFields" stylesheets="@style.css" />
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="53.0" prefWidth="389.0">
+                     <children>
+                        <AnchorPane prefHeight="48.0" prefWidth="251.0">
+                           <children>
+                              <Button fx:id="addProcess_btn" layoutX="-1.0" layoutY="5.0" mnemonicParsing="false" onAction="#addProcess" onMouseClicked="#addProcess" prefHeight="43.0" prefWidth="252.0" styleClass="addProcess_btn" stylesheets="@style.css" text="Add process" textFill="#00b7f3">
+                                 <font>
+                                    <Font name="Century Gothic Bold" size="34.0" />
+                                 </font>
+                              </Button>
+                              <Label layoutX="14.0" layoutY="-3.0" text="+" textFill="WHITE">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="summary_HBox" layoutX="60.0" layoutY="524.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="169.0" prefWidth="314.0" styleClass="pane" stylesheets="@style.css" AnchorPane.leftAnchor="30.0">
+               <children>
+                  <HBox fx:id="summaryHBox" prefHeight="40.0" prefWidth="189.0" styleClass="summaryHBox">
+                     <children>
+                        <ImageView fitHeight="34.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0" translateY="5.0">
+                           <image>
+                              <Image url="@images/i.jpeg" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="summary_label" prefHeight="16.0" prefWidth="128.0" styleClass="summaryHBox" stylesheets="@style.css" text="Summary" textFill="#25265e" translateX="-5.0">
+                           <font>
+                              <Font name="Century Gothic Bold" size="23.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <FlowPane fx:id="summaryDetails" prefHeight="80.0" prefWidth="243.0" style="-fx-padding: 10;">
+                     <children>
+                        <Label fx:id="Average_Turnaround_Time_label" prefHeight="18.0" prefWidth="180.0" text="Average Turnaround Time:" textFill="#25265e">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="Average_Turnaround_Time_textField" editable="false" prefHeight="30.0" prefWidth="70.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 5; -fx-font-family: Century Gothic; -fx-border-color: transparent;">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
+                        <Label fx:id="Average_Waiting_Time_label" stylesheets="@style.css" text="Average Waiting Time:" textFill="#25265e">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="Average_Waiting_Time_textField" editable="false" prefHeight="32.0" prefWidth="70.0" promptText="..." style="-fx-background-color: transparent; -fx-translate-x: 32; -fx-font-family: Century Gothic; -fx-border-color: transparent;" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </FlowPane>
+                  <Button fx:id="goBack_btn" mnemonicParsing="false" onAction="#goBack" onMouseClicked="#goBack" styleClass="goBack_btn" text="Go back" translateX="-20.0" translateY="30.0" />
+               </children>
+            </VBox>
+            <Label fx:id="error_label" alignment="CENTER" layoutX="273.0" layoutY="714.0" prefHeight="20.0" prefWidth="825.0" styleClass="error-label" stylesheets="@style.css" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Century Gothic" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

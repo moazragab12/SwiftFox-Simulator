@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.swiftfox","l":"com.swiftfox"},{"m":"com.swiftfox","l":"com.swiftfox.controller"},{"m":"com.swiftfox","l":"com.swiftfox.model"},{"m":"com.swiftfox","l":"com.swiftfox.scheduler"},{"m":"com.swiftfox","l":"com.swiftfox.scheduler.algorithms"}];updateSearchResults();
